@@ -10,6 +10,26 @@ game.module(
 
 	    init: function() {
 	        var logo = new game.Sprite('logo.png').center().addTo(this.stage);
+	    },
+
+	    keydown: function(key) {
+	        if (key === 'SPACE') {
+	            // Space key down
+	        }
+	    },
+
+	    keyup: function(key) {
+	        if (key === 'SPACE') {
+	            // Space key up
+	        }
+	    },
+
+	    update: function() {
+	        // Check if key is currently down
+	        if (game.keyboard.down('SPACE')) {
+	            // Space is down
+	        }
+	        this._super();
 	    }
 	});
 
