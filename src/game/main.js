@@ -25,9 +25,11 @@ game.module(
                 // Space is down
             }
             this._super();
+            this.player.update();
         },
 
         keydown: function(key) {
+            this.player.keydown(key);
             if (key === 'SPACE') {
                 // Space key down
             }
