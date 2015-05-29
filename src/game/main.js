@@ -1,6 +1,7 @@
 game.module(
     'game.main'
 )
+.require('game.game_over')
 .body(function() {
     game.addAsset('logo.png');
 
