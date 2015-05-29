@@ -11,30 +11,11 @@ game.module(
         backgroundColor: 0xb9bec7,
 
         init: function() {
-            this.worldsphere = new game.WorldSphere(100, 100, 50);
-            this.player = new game.Player(500, 500);
-
             // Create physics world
             this.world = new game.World();
-
-            // Create new body
-            var body = new game.Body();
-
-            // Set body position
-            body.position.x = 200;
-            body.position.y = 200;
-
-            // Set body mass, so it will fall
-            body.mass = 1;
-
-            // Create new shape with size of 100px x 100px
-            var shape = new game.Rectangle(100, 100);
-
-            // Add shape to body
-            body.addShape(shape);
-
-            // Add body to world
-            this.world.addBody(body);
+            
+            this.worldsphere = new game.WorldSphere(100, 100, 50);
+            this.player = new game.Player(500, 500);
 
             this.entities = game.pool.create('MainPool');
             // game.pool.put('MainPool', meinobject);
@@ -46,9 +27,11 @@ game.module(
                 // Space is down
             }
             this._super();
+            this.player.update();
         },
 
         keydown: function(key) {
+            this.player.keydown(key);
             if (key === 'SPACE') {
                 // Space key down
             }
