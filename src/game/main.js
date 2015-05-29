@@ -2,31 +2,17 @@ game.module(
     'game.main'
 )
 .require('game.game_over')
+.require('game.worldsphere')
+.require('game.player')
 .body(function() {
     game.addAsset('logo.png');
-
-    game.createClass('WorldSphere', {
-        init: function(x, y, radius) {
-            this.position = {x: x, y: y};
-            this.radius = radius;
-
-            var graphics = new game.Graphics()
-            graphics.lineStyle(2, 0xFF0000);
-            graphics.beginFill(0xDD3333);
-            graphics.drawCircle(x, y, radius);
-            graphics.endFill();
-            game.scene.stage.addChild(graphics);
-        },
-
-        update: function() {
-        }
-    });
 
     game.createScene('Main', {
         backgroundColor: 0xb9bec7,
 
         init: function() {
-            var worldsphere = new game.WorldSphere(100, 100, 50);
+            this.worldsphere = new game.WorldSphere(100, 100, 50);
+            this.player = new game.Player(500, 500);
 
             // Create physics world
             this.world = new game.World();
