@@ -1,2 +1,5 @@
 pandaConfig = {
+    system: {
+        webGL: true
+    }
 };
