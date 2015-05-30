@@ -2,10 +2,10 @@ game.module('game.player')
 .require('game.b2dvec')
 .body(function(){ 
     game.createClass('Player', {
-        init: function(x, y) {
+        init: function(x, y, width) {
             this.sprite = new game.Sprite('logo.png', x, y, {
-                width: 30, 
-                height: 60,
+                width: width, 
+                height: width*2,
                 anchor: {
                     x: 0.5,
                     y: 0.5

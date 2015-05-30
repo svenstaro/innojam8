@@ -26,9 +26,9 @@ game.module(
             var gravity = new game.Box2D.Vec2(0, 100 * game.Box2D.SCALE);// gravity pull x, y
             this.Box2Dworld = new game.Box2D.World(gravity, true);
 
-            this.player = new game.Player(game.system.width/2, 100);
+            this.player = new game.Player(game.system.width/2, 200, 50);
 
-            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 600, 500);
+            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 300, 400);
 
             this.scoreText = new game.PIXI.Text(score, {font: '20px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
