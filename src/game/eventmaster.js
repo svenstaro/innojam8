@@ -5,6 +5,7 @@ game.module('game.eventmaster')
     game.createClass('EventMaster', {
         events: [],
         timeSinceLastEvent: 0,
+        difficulty: 0,
 
         init: function() {
             
@@ -12,7 +13,7 @@ game.module('game.eventmaster')
 
         update: function() {
             delta = game.system.delta;
-            console.log(delta);
-        }
+            console.log(game.scene.difficulty);
+        },
     });
 });

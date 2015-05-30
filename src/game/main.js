@@ -18,8 +18,8 @@ game.module(
         backgroundColor: 0x111111,
 
         init: function() {
-            score = 0;
-            difficulty = 0;
+            this.score = 0;
+            this.difficulty = 0;
 
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
@@ -34,11 +34,11 @@ game.module(
 
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 300, 400);
 
-            this.scoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
+            this.scoreText = new game.PIXI.Text(this.score, {font: '40px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
 
-            this.difficultyText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
+            this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '40px Arial', fill: '#f0a'});
             this.difficultyText.position = {x: game.system.width - 300, y: 10};
             this.stage.addChild(this.difficultyText);
 
@@ -47,7 +47,9 @@ game.module(
             this.stage.addChild(bg);
 
             this.updateLayersOrder();
-            var eventmaster = new game.EventMaster();
+            this.eventmaster = new game.EventMaster();
+
+            game.scene.addObject(this.eventmaster);
         },
 
         updateLayersOrder: function() {
@@ -61,11 +63,11 @@ game.module(
         update: function() {
             this._super();
 
-            score += game.system.delta;
-            difficulty = Math.floor(game.system.timer.time() / 10000);
+            this.score += game.system.delta;
+            this.difficulty = Math.floor(game.system.timer.time() / 5000);
 
-            this.scoreText.setText("Score: " + Math.floor(score * 100)/100);
-            this.difficultyText.setText("Difficulty: " + difficulty);
+            this.scoreText.setText("Score: " + Math.floor(this.score * 100)/100);
+            this.difficultyText.setText("Difficulty: " + this.difficulty);
 
             //The following code is needed to update the time in the box2d world.
             //The values below are fine as default values, feel free to look up more info in the reference.
