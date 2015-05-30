@@ -1,32 +1,64 @@
-game.module('game.player').body(function(){ 
+game.module('game.player')
+.require('game.b2dvec')
+.body(function(){ 
     game.createClass('Player', {
         init: function(x, y) {
-            this.position = {x: x, y: y};
-            this.size = 1;
-            this.body = new game.Body();
-            this.body.mass = 1;
-            this.shape = new game.Rectangle(25*this.size, 50*this.size);
-            this.body.addShape(this.shape);
-            game.scene.world.addBody(this.body);
+            this.sprite = new game.Sprite('logo.png', x, y, {
+                width: 30, 
+                height: 60,
+                anchor: {
+                    x: 0.5,
+                    y: 0.5
+                }
+            });
+            this.speed = 100;
+            game.scene.addObject(this);
+            this.sprite.addTo(game.scene.stage);
 
-            this.graphics = new game.Graphics();
-            game.scene.stage.addChild(this.graphics);
+            //create a body using a body definition
+            var bodyDef = new game.Box2D.BodyDef();
+            bodyDef.position = new game.Box2D.Vec2(
+                this.sprite.position.x * game.Box2D.SCALE,
+                this.sprite.position.y * game.Box2D.SCALE
+            ); 
+            bodyDef.type = game.Box2D.Body.b2_dynamicBody;
+            this.body = game.scene.Box2Dworld.CreateBody(bodyDef);
+            //and the fixture
+            var fixtureDef = new game.Box2D.FixtureDef;
+            fixtureDef.shape = new game.Box2D.PolygonShape.AsBox(
+                this.sprite.width / 2 * game.Box2D.SCALE,
+                this.sprite.height / 2 * game.Box2D.SCALE
+            );
+            fixtureDef.density = 0.1;       //density has influence on collisions
+            fixtureDef.friction = 0.5;      //A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
+            fixtureDef.restitution = 0;   //=Bounciness (range: 0-1).
+            this.body.CreateFixture(fixtureDef);
         },
 
         update: function() {
-            // console.log('player x: ' + this.position.x + ', player y: ' + this.position.y);
-            this.graphics.lineStyle(2, 0xFF0000);
-            this.graphics.beginFill(0xDD3333);
-            this.graphics.drawRect(this.position.x, this.position.y, 25*this.size, 50*this.size);
-            this.graphics.endFill();
-        },
+            //The box2D world keeps track of the movement and position of the body.
+            //use the update function to get the sprite in the right spot
+            var p = this.body.GetPosition();
+            this.sprite.position.x = p.x / game.Box2D.SCALE;
+            this.sprite.position.y = p.y / game.Box2D.SCALE;
+            this.sprite.rotation = this.body.GetAngle().round(2);
 
-        keydown: function(key) {
-            if (key === 'D') {
-                
-            } else if (key === 'A') {
-                
+            console.log(this.body.GetLinearVelocity().x);
+            if(game.keyboard.down("UP")){
+                this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -this.speed * game.Box2D.SCALE));
             }
+            if(game.keyboard.down("DOWN")){
+                this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, this.speed * game.Box2D.SCALE));
+            }
+            if(game.keyboard.down("LEFT")){
+                this.body.SetLinearVelocity(new game.Box2D.Vec2(-this.speed * game.Box2D.SCALE, this.body.GetLinearVelocity().y));
+            }
+            if(game.keyboard.down("RIGHT")){
+                this.body.SetLinearVelocity(new game.Box2D.Vec2(this.speed * game.Box2D.SCALE, this.body.GetLinearVelocity().y));
+            }
+        },
+        coordinate: function(x, y){
+            return game.b2dvec(Math.round(x-this.sprite.width/2), Math.round(y-this.sprite.height/2));
         }
     });
 });
