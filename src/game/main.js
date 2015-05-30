@@ -8,6 +8,7 @@ game.module(
 .require('game.sphere_fragment')
 .require('game.player')
 .require('game.eventmaster')
+.require('game.sort_z_index')
 .require('game.events.meteorshower')
 .require('game.events.rotate')
 .body(function() {
@@ -46,18 +47,10 @@ game.module(
             bg.zIndex = 100;
             this.stage.addChild(bg);
 
-            this.updateLayersOrder();
             this.eventmaster = new game.EventMaster();
 
             game.scene.addObject(this.eventmaster);
-        },
-
-        updateLayersOrder: function() {
-            this.stage.children.sort(function(a,b) {
-                a.zIndex = a.zIndex || 0;
-                b.zIndex = b.zIndex || 0;
-                return b.zIndex - a.zIndex;
-            });
+            game.sortZIndex();
         },
 
         update: function() {
