@@ -2,10 +2,10 @@ game.module('game.player')
 .require('game.b2dvec')
 .body(function(){ 
     game.createClass('Player', {
-        init: function(x, y, width) {
+        init: function(x, y, w, h) {
             this.sprite = new game.Sprite('logo.png', x, y, {
-                width: width, 
-                height: width*2,
+                width: w, 
+                height: h,
                 anchor: {
                     x: 0.5,
                     y: 0.5
@@ -13,7 +13,9 @@ game.module('game.player')
             });
 
             // Player properties
-            this.speed = 100;
+            this.speed = 300;
+            this.isGrounded = false;
+            this.groundedExpireTime = 0;
 
             game.scene.addObject(this);
             this.sprite.addTo(game.scene.stage);
@@ -37,69 +39,59 @@ game.module('game.player')
                 this.sprite.width / 2 * game.Box2D.SCALE,
                 this.sprite.height / 2 * game.Box2D.SCALE
             );
-            fixtureDef.density = 4;       //density has influence on collisions
-            fixtureDef.friction = 0.5;      //A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
-            fixtureDef.restitution = 0;   //=Bounciness (range: 0-1).
-            this.body.CreateFixture(fixtureDef);
+            fixtureDef.density = 300;     // density has influence on collisions
+            fixtureDef.friction = 0;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
+            fixtureDef.restitution = 0; // => Bounciness (range: 0-1).
 
-            fixtureDef.density = 0.1;   // density has influence on collisions
-            fixtureDef.friction = 0.5;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
-            fixtureDef.restitution = 0; // == Bounciness (range: 0-1).
-            var player_fixture = this.body.CreateFixture(fixtureDef);
-            player_fixture.SetUserData("PlayerMainFixture");
+            this.player_fixture = this.body.CreateFixture(fixtureDef);
+            this.player_fixture.SetUserData("PlayerMainFixture");
+            console.log(this.body.GetMass());
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
-
-            sensorFixtureDef.shape = new game.Box2D.PolygonShape.AsBox(
-                (this.sprite.width / 2) * game.Box2D.SCALE,
-                this.sprite.height / 10 * game.Box2D.SCALE
-            );
-            for (var i = sensorFixtureDef.shape.m_vertices.length - 1; i >= 0; i--) {
-                sensorFixtureDef.shape.m_vertices[i].y += fixtureDef.shape.m_vertices[3].y;
-            };
-            sensorFixtureDef.isSensor = true;
-            sensorFixtureDef.density = 0.001;
-            sensorFixtureDef.friction = 0;
+            sensorFixtureDef.shape = new game.Box2D.CircleShape(this.sprite.width / 2 * game.Box2D.SCALE);
+            // sensorFixtureDef.isSensor = true;
+            sensorFixtureDef.density = 300;
+            sensorFixtureDef.friction = 0.8;
             sensorFixtureDef.restitution = 0;
-            var sensor_fixture = this.body.CreateFixture(sensorFixtureDef);
-            sensor_fixture.SetUserData("PlayerSensor");
+            this.sensor_fixture = this.body.CreateFixture(sensorFixtureDef);
+            this.sensor_fixture.SetUserData("PlayerSensor");
+            this.sensor_fixture.GetShape().SetLocalPosition(new game.Box2D.Vec2(0, this.sprite.height / 2 * game.Box2D.SCALE));
         },
 
         update: function() {
-            //The box2D world keeps track of the movement and position of the body.
-            //use the update function to get the sprite in the right spot
+            // The box2D world keeps track of the movement and position of the body.
+            // use the update function to get the sprite in the right spot
             var p = this.body.GetPosition();
             this.sprite.position.x = p.x / game.Box2D.SCALE;
             this.sprite.position.y = p.y / game.Box2D.SCALE;
             this.sprite.rotation = this.body.GetAngle().round(2);
 
+            var vel = this.body.GetLinearVelocity();
+            var pos = this.body.GetPosition();     
+
             if(game.keyboard.down("RIGHT") || game.keyboard.down("D")){
                 this.body.SetLinearVelocity(new game.Box2D.Vec2(this.speed * game.Box2D.SCALE, this.body.GetLinearVelocity().y));
-                // this.body.
             }
             else if(game.keyboard.down("LEFT") || game.keyboard.down("A")){
                 this.body.SetLinearVelocity(new game.Box2D.Vec2(-this.speed * game.Box2D.SCALE, this.body.GetLinearVelocity().y));
             }
             else {
-                this.body.SetLinearVelocity(new game.Box2D.Vec2(0, this.body.GetLinearVelocity().y));
+                this.body.SetLinearVelocity(new game.Box2D.Vec2(vel.x * 0.8, vel.y));
             }
 
+            this.groundedExpireTime -= 1000 * game.system.delta;
+
+            this.isGrounded = this.isSensorContacting();
             if (game.keyboard.down("SPACE") || game.keyboard.down("W") || game.keyboard.down("UP")) {
-                if (this.isSensorContacting()) {
-                    this.jump();
+                if (this.isGrounded && this.groundedExpireTime <= 0) {
+                    this.body.ApplyImpulse(new game.Box2D.Vec2(0, -500), this.body.GetLocalCenter());
+                    this.isGrounded = false;
+                    this.groundedExpireTime = 100;
                 }
             }
-            else if(this.body.GetLinearVelocity().y < 0) {
-                this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, 0));
-            }
-        },
-
-        coordinate: function(x, y) {
-            return game.b2dvec(Math.round(x-this.sprite.width/2), Math.round(y-this.sprite.height/2));
-        },
-
-        jump: function() {
-            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -100));
+            // else if(this.body.GetLinearVelocity().y < 0) {
+            //     this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, 0));
+            // }
         },
 
         isSensorContacting: function() {
@@ -108,7 +100,9 @@ game.module('game.player')
             for (var c = game.scene.Box2Dworld.GetContactList(); c ; c = c.GetNext())
             {
                 if (c.GetFixtureA().GetUserData() == "PlayerSensor" || c.GetFixtureB().GetUserData() == "PlayerSensor") {
-                    console.log(c);
+                // if ((c.GetFixtureA().GetUserData() == "PlayerSensor" && c.GetFixtureB().GetUserData() == "SphereFragment") || 
+                //     (c.GetFixtureB().GetUserData() == "PlayerSensor" && c.GetFixtureB().GetUserData() == "SphereFragment")) {
+                //     console.log(c);
                     return true;
                 }
             }

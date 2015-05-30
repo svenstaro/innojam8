@@ -22,7 +22,7 @@ game.module('game.eventmaster')
                 var events = [game.Meteorshower, game.Rotate]; //, game.BuggyPhysics];
                 var event_type = Math.floor(Math.random() * events.length);
 
-                new events[event_type](game.scene.difficulty); 
+                // new events[event_type](game.scene.difficulty); 
             }
         },
     });

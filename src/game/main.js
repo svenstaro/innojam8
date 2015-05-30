@@ -31,6 +31,9 @@ game.module(
 
             score = 0;
             this.difficulty = 0;
+            // Constants
+            game.Box2D.SCALE = 0.01;
+            this.gravity = 1000;
 
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
@@ -38,10 +41,10 @@ game.module(
                 game.storage.set('highscore', highscore);
             }
 
-            var gravity = new game.Box2D.Vec2(0, 100 * game.Box2D.SCALE);// gravity pull x, y
+            var gravity = new game.Box2D.Vec2(0, this.gravity * game.Box2D.SCALE);// gravity pull x, y
             this.Box2Dworld = new game.Box2D.World(gravity, true);
 
-            this.player = new game.Player(game.system.width/2, 200, 50);
+            this.player = new game.Player(game.system.width/2, 200, 50, 100);
 
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 300, 400);
 
