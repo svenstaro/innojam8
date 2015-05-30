@@ -7,6 +7,7 @@ game.module(
 .require('game.worldsphere')
 .require('game.sphere_fragment')
 .require('game.player')
+.require('game.events.meteors')
 .body(function() {
     game.addAsset('logo.png');
     game.addAsset('background.png');
@@ -35,9 +36,12 @@ game.module(
 
             var bg = new game.Sprite('background.png')
             bg.zIndex = 100;
-            this.stage.addChildAt(bg, this.stage.children.length -1);
+            this.stage.addChild(bg);
 
             this.updateLayersOrder();
+            setTimeout(function() {
+                new game.Meteors(10);
+            }, 1000);
         },
 
         updateLayersOrder: function() {

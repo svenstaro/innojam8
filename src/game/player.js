@@ -30,7 +30,7 @@ game.module('game.player')
                 this.sprite.width / 2 * game.Box2D.SCALE,
                 this.sprite.height / 2 * game.Box2D.SCALE
             );
-            fixtureDef.density = 0.1;       //density has influence on collisions
+            fixtureDef.density = 1;       //density has influence on collisions
             fixtureDef.friction = 0.5;      //A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
             fixtureDef.restitution = 0;   //=Bounciness (range: 0-1).
             this.body.CreateFixture(fixtureDef);
