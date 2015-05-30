@@ -20,23 +20,16 @@ game.module(
                 game.storage.set('highscore', highscore);
             }
 
-            //create gravity vector
             var gravity = new game.Box2D.Vec2( 0, 100 * game.Box2D.SCALE );// gravity pull x, y
-            //and now create world
             this.Box2Dworld = new game.Box2D.World(gravity, true);
 
-            // Create physics world
-            this.worldsphere = new game.WorldSphere(100, 100, 50);
             this.player = new game.Player(game.system.width/2, 100);
 
-            this.entities = game.pool.create('MainPool');
-            // game.pool.put('MainPool', meinobject);
+            this.sphere = new game.WorldSphere(800, 800, 100);
 
             this.scoreText = new game.PIXI.Text(score, {font: '20px Arial'});
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
-
-            var frag = new game.SphereFragment();
         },
 
         update: function() {

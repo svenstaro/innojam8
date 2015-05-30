@@ -1,15 +1,20 @@
-game.module('game.worldsphere').body(function(){ 
+game.module('game.worldsphere')
+.require('game.sphere_fragment')
+.body(function(){ 
     game.createClass('WorldSphere', {
         init: function(x, y, radius) {
             this.position = {x: x, y: y};
             this.radius = radius;
 
-            var graphics = new game.Graphics();
-            graphics.lineStyle(2, 0xFF0000);
-            graphics.beginFill(0xDD3333);
-            graphics.drawCircle(x, y, radius);
-            graphics.endFill();
-            game.scene.stage.addChild(graphics);
+            var fragmentWidth = 2 * radius  * (Math.sqrt(2) - 1);
+            var fragmentHeight = radius
+
+            for (var i = 0; i < 8; i++) {
+                var angle = i*(Math.PI/4);
+                var localX = Math.cos(angle)*radius;
+                var localY = Math.sin(angle)*radius;
+                new game.SphereFragment(x + localX, y + localY, fragmentWidth, fragmentHeight, angle + Math.PI/2);
+            }
         },
 
         update: function() {

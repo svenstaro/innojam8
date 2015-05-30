@@ -43,7 +43,6 @@ game.module('game.player')
             this.sprite.position.y = p.y / game.Box2D.SCALE;
             this.sprite.rotation = this.body.GetAngle().round(2);
 
-            console.log(this.body.GetLinearVelocity().x);
             if(game.keyboard.down("UP")){
                 this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -this.speed * game.Box2D.SCALE));
             }
