@@ -22,7 +22,8 @@ game.module('game.meteor')
             fixtureDef.density = size;
             fixtureDef.friction = 0.1;
             fixtureDef.restitution = 0;
-            this.body.CreateFixture(fixtureDef);
+            var meteor_fixture = this.body.CreateFixture(fixtureDef);
+            meteor_fixture.SetUserData("meteor");
             this.body.SetLinearVelocity(game.b2dvec(velocity.x, velocity.y));
         },
         update: function() {

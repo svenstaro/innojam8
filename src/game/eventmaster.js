@@ -1,7 +1,7 @@
 game.module('game.eventmaster')
 .require('game.events.meteorshower')
 .require('game.events.rotate')
-.require('game.events.buggy_physics')
+// .require('game.events.buggy_physics')
 .body(function() {
     game.createClass('EventMaster', {
         events: [],
