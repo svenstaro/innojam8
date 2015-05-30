@@ -19,8 +19,8 @@ game.module('game.eventmaster')
             var event_chance = Math.max(1, Math.floor((Math.random() * 80000 * delta - this.timeSinceLastEvent * 100) + 1));
             if (event_chance === 1 && this.events.length < this.eventLimit) {
                 this.timeSinceLastEvent = 0;
-                var event_type = Math.floor(Math.random() * 3);
                 var events = [game.Meteorshower, game.Rotate, game.BuggyPhysics];
+                var event_type = Math.floor(Math.random() * events.length);
 
                 new events[event_type](game.scene.difficulty); 
             }
