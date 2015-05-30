@@ -22,6 +22,7 @@ game.module('game.player')
                 this.sprite.position.y * game.Box2D.SCALE
             ); 
             bodyDef.type = game.Box2D.Body.b2_dynamicBody;
+            bodyDef.allowSleep = false;
             this.body = game.scene.Box2Dworld.CreateBody(bodyDef);
             //and the fixture
             var fixtureDef = new game.Box2D.FixtureDef;
