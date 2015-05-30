@@ -40,7 +40,7 @@ game.module(
 
             this.updateLayersOrder();
             setTimeout(function() {
-                new game.Meteors(10);
+                // new game.Meteors(10);
             }, 1000);
         },
 

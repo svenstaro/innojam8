@@ -11,7 +11,7 @@ game.module('game.sphere_fragment')
                     height: height,
                     anchor: {
                         x: 0.5,
-                        y: 0.5
+                        y: 0
                     }
                 });
             game.scene.addObject(this);
@@ -19,10 +19,7 @@ game.module('game.sphere_fragment')
 
             //create a body using a body definition
             var bodyDef = new game.Box2D.BodyDef();
-            bodyDef.position = new game.Box2D.Vec2(
-                (this.sprite.position.x + this.sprite.width) / 2 * game.Box2D.SCALE,
-                (this.sprite.position.y + this.sprite.height) / 2 * game.Box2D.SCALE
-            ); 
+            bodyDef.position = game.b2dvec(x, y);
             bodyDef.angle = angle;
             bodyDef.type = game.Box2D.Body.b2_staticBody;
             this.body = game.scene.Box2Dworld.CreateBody(bodyDef);
@@ -30,9 +27,9 @@ game.module('game.sphere_fragment')
             //and the fixture
             var fixtureDef = new game.Box2D.FixtureDef;
             var box2DPoints = [
-                this.coordinate(0, 0),
-                this.coordinate(width,0),
-                this.coordinate(width/2,height)
+                game.b2dvec(0, 0),
+                game.b2dvec(width/2,height),
+                game.b2dvec(-width/2,height)
             ];
             fixtureDef.shape = new game.Box2D.PolygonShape.AsVector(box2DPoints, box2DPoints.length);
             //density has influence on collisions
@@ -50,10 +47,6 @@ game.module('game.sphere_fragment')
             this.sprite.position.x = p.x / game.Box2D.SCALE;
             this.sprite.position.y = p.y / game.Box2D.SCALE;
             this.sprite.rotation = this.body.GetAngle().round(2);
-        },
-        coordinate: function(x, y){
-            return game.b2dvec(Math.round(x-this.sprite.width/2), 
-                Math.round(y-this.sprite.height/2));
         }
     });
 });

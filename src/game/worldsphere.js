@@ -11,9 +11,7 @@ game.module('game.worldsphere')
 
             for (var i = 0; i < 8; i++) {
                 var angle = i*(Math.PI/4);
-                var localX = Math.cos(angle)*radius;
-                var localY = Math.sin(angle)*radius;
-                new game.SphereFragment(x + localX, y + localY, fragmentWidth, fragmentHeight, angle + Math.PI/2);
+                new game.SphereFragment(x, y, fragmentWidth, fragmentHeight, angle - Math.PI/2);
             }
         },
 
