@@ -39,6 +39,10 @@ game.module(
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
 
+            this.highscoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
+            this.highscoreText.position = {x: 10, y: 50};
+            this.stage.addChild(this.highscoreText);
+
             this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '40px Arial', fill: '#f0a'});
             this.difficultyText.position = {x: game.system.width - 300, y: 10};
             this.stage.addChild(this.difficultyText);
@@ -59,7 +63,8 @@ game.module(
             score += game.system.delta;
             this.difficulty = Math.floor(game.system.timer.time() / 5000);
 
-            this.scoreText.setText("Score: " + Math.floor(score * 100)/100);
+            this.scoreText.setText("Time: " + Math.floor(score * 100)/100);
+            this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
             this.difficultyText.setText("Difficulty: " + this.difficulty);
 
             //The following code is needed to update the time in the box2d world.

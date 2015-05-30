@@ -9,6 +9,7 @@ game.module('game.events.meteorshower')
             this.waveSize = this.difficulty;
             this.spawnMeteor();
         },
+
         spawnMeteor: function() {
             var x = Math.random()*game.system.width;
             var y = -100;
