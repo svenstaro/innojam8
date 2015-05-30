@@ -1,11 +1,11 @@
 game.module('game.sphere_fragment')
 .require('game.b2dvec')
 .body(function() {
-    game.addAsset('sphere_fragment.png');
+    game.addAsset('crystal.png');
 
     game.createClass('SphereFragment', {
         init: function(x, y, width, height, angle) {
-            this.sprite = new game.Sprite('sphere_fragment.png', x, y, 
+            this.sprite = new game.Sprite('crystal.png', x, y, 
                 {
                     width: width, 
                     height: height,

@@ -14,12 +14,21 @@ game.module(
 .body(function() {
     game.addAsset('logo.png');
     game.addAsset('background.png');
+    //add animation of the grid
+    game.addAsset('Grid_sprite_01.png', 'grid1');
+    game.addAsset('Grid_sprite_02.png', 'grid2');
 
     game.createScene('Main', {
         backgroundColor: 0x111111,
         name: 'Main',
 
         init: function() {
+            this.gridmovement = new game.Animation([game.getTexture('grid1'), game.getTexture('grid2')]);
+            this.gridmovement.animationSpeed = 0.05;
+            this.gridmovement.play();
+            this.gridmovement.position.set(0, 0);
+            game.scene.stage.addChild(this.gridmovement);
+
             score = 0;
             this.difficulty = 0;
 
