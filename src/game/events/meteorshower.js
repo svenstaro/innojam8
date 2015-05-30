@@ -11,6 +11,10 @@ game.module('game.events.meteorshower')
         },
 
         spawnMeteor: function() {
+            if (!(game.scene.name === 'Main')) {
+                return;
+            }
+            
             var x = Math.random()*game.system.width;
             var y = -100;
 

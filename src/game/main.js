@@ -17,6 +17,7 @@ game.module(
 
     game.createScene('Main', {
         backgroundColor: 0x111111,
+        name: 'Main',
 
         init: function() {
             score = 0;
