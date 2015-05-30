@@ -9,9 +9,10 @@ game.module(
 .require('game.player')
 .body(function() {
     game.addAsset('logo.png');
+    game.addAsset('background.png');
 
     game.createScene('Main', {
-        backgroundColor: 0xb9bec7,
+        backgroundColor: 0x111111,
 
         init: function() {
             score = 0;
@@ -28,9 +29,23 @@ game.module(
 
             this.sphere = new game.WorldSphere(800, 800, 100);
 
-            this.scoreText = new game.PIXI.Text(score, {font: '20px Arial'});
+            this.scoreText = new game.PIXI.Text(score, {font: '20px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
+
+            var bg = new game.Sprite('background.png')
+            bg.zIndex = 100;
+            this.stage.addChildAt(bg, this.stage.children.length -1);
+
+            this.updateLayersOrder();
+        },
+
+        updateLayersOrder: function() {
+            this.stage.children.sort(function(a,b) {
+                a.zIndex = a.zIndex || 0;
+                b.zIndex = b.zIndex || 0;
+                return b.zIndex - a.zIndex;
+            });
         },
 
         update: function() {
@@ -76,6 +91,7 @@ game.module(
                 // Space key up
             }
         }
+
     });
 
 });
