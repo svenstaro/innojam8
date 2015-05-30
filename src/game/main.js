@@ -8,6 +8,7 @@ game.module(
 .require('game.sphere_fragment')
 .require('game.player')
 .require('game.events.meteorshower')
+.require('game.events.rotate')
 .body(function() {
     game.addAsset('logo.png');
     game.addAsset('background.png');
@@ -41,6 +42,7 @@ game.module(
             this.updateLayersOrder();
             setTimeout(function() {
                 new game.Meteorshower(10);
+                new game.Rotate();
             }, 1000);
         },
 

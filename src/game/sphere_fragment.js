@@ -21,7 +21,8 @@ game.module('game.sphere_fragment')
             var bodyDef = new game.Box2D.BodyDef();
             bodyDef.position = game.b2dvec(x, y);
             bodyDef.angle = angle;
-            bodyDef.type = game.Box2D.Body.b2_staticBody;
+            bodyDef.allowSleep = false;
+            bodyDef.type = game.Box2D.Body.b2_kineticBody;
             this.body = game.scene.Box2Dworld.CreateBody(bodyDef);
 
             //and the fixture
