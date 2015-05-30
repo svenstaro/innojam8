@@ -95,14 +95,13 @@ game.module(
 
         keydown: function(key) {
             if (key === 'SPACE') {
-                // Space key down
+                
             }
         },
 
         keyup: function(key) {
-            if (key === 'SPACE') {
+            if (key === 'Q') {
                 this.gameOver();
-                // Space key up
             }
         }
 
