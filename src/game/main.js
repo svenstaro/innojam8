@@ -22,12 +22,12 @@ game.module(
                 game.storage.set('highscore', highscore);
             }
 
-            var gravity = new game.Box2D.Vec2( 0, 100 * game.Box2D.SCALE );// gravity pull x, y
+            var gravity = new game.Box2D.Vec2(0, 100 * game.Box2D.SCALE);// gravity pull x, y
             this.Box2Dworld = new game.Box2D.World(gravity, true);
 
             this.player = new game.Player(game.system.width/2, 100);
 
-            this.sphere = new game.WorldSphere(800, 800, 100);
+            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 600, 500);
 
             this.scoreText = new game.PIXI.Text(score, {font: '20px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};

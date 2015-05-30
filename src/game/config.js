@@ -1,6 +1,6 @@
 pandaConfig = {
     system: {
-        startScene: 'MainMenu',
+        startScene: 'Main',
         webGL: true,
         width: 1920,
         height: 1080
