@@ -59,12 +59,16 @@ game.module('game.player')
             this.sensorContactListener = new game.Box2D.ContactListener();
             game.scene.Box2Dworld.SetContactListener(this.sensorContactListener);
             this.sensorContactListener.BeginContact = function(contact) {
-                var player = getBodyFromFixture("PlayerSensor", contact);
-                player.isGrounded = true;
+                var player = getObjectFromFixture("PlayerSensor", contact);
+                if (player != null) {
+                    player.isGrounded = true;
+                }
             };
             this.sensorContactListener.EndContact = function(contact) {
-                var player = getBodyFromFixture("PlayerSensor", contact);
-                player.isGrounded = false;
+                var player = getObjectFromFixture("PlayerSensor", contact);
+                if (player != null) {
+                    player.isGrounded = false;
+                }
             };
         },
 
@@ -105,7 +109,7 @@ game.module('game.player')
         }
     });
 
-    function getBodyFromFixture(userData, contact) {
+    function getObjectFromFixture(userData, contact) {
         var userdata_fixtureA = contact.GetFixtureA().GetUserData();
         var userdata_fixtureB = contact.GetFixtureB().GetUserData();
 
@@ -116,6 +120,9 @@ game.module('game.player')
         } else if (userdata_fixtureB === userData) {
             fixture = contact.GetFixtureB();
         }
-        return fixture.GetBody().GetUserData();
+        if (fixture != null) {
+            return fixture.GetBody().GetUserData();
+        }
+        return null;
     };
 });
