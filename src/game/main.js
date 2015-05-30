@@ -7,6 +7,7 @@ game.module(
 .require('game.worldsphere')
 .require('game.sphere_fragment')
 .require('game.player')
+.require('game.eventmaster')
 .require('game.events.meteorshower')
 .require('game.events.rotate')
 .body(function() {
@@ -18,6 +19,8 @@ game.module(
 
         init: function() {
             score = 0;
+            difficulty = 0;
+
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
                 highscore = 0;
@@ -31,19 +34,20 @@ game.module(
 
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 300, 400);
 
-            this.scoreText = new game.PIXI.Text(score, {font: '20px Arial', fill: '#f0a'});
+            this.scoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
+
+            this.difficultyText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
+            this.difficultyText.position = {x: game.system.width - 300, y: 10};
+            this.stage.addChild(this.difficultyText);
 
             var bg = new game.Sprite('background.png')
             bg.zIndex = 100;
             this.stage.addChild(bg);
 
             this.updateLayersOrder();
-            setTimeout(function() {
-                new game.Meteorshower(10);
-                new game.Rotate();
-            }, 1000);
+            var eventmaster = new game.EventMaster();
         },
 
         updateLayersOrder: function() {
@@ -58,7 +62,10 @@ game.module(
             this._super();
 
             score += game.system.delta;
-            this.scoreText.setText(Math.floor(score * 100)/100);
+            difficulty = Math.floor(game.system.timer.time() / 10000);
+
+            this.scoreText.setText("Score: " + Math.floor(score * 100)/100);
+            this.difficultyText.setText("Difficulty: " + difficulty);
 
             //The following code is needed to update the time in the box2d world.
             //The values below are fine as default values, feel free to look up more info in the reference.
