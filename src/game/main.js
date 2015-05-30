@@ -78,9 +78,9 @@ game.module(
         },
 
         gameOver: function() {
-            score = Math.floor(score*100)/100
-            if (score > highscore) {
-                highscore = score;
+            this.score = Math.floor(score*100)/100
+            if (this.score > highscore) {
+                highscore = this.score;
                 game.storage.set('highscore', score);
             }
             game.system.pause();
