@@ -13,9 +13,8 @@ game.module('game.player')
             });
 
             // Player properties
-            this.speed = 300;
+            this.speed = 450;
             this.isGrounded = false;
-            this.groundedExpireTime = 0;
 
             game.scene.addObject(this);
             this.sprite.addTo(game.scene.stage);
@@ -48,13 +47,25 @@ game.module('game.player')
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
             sensorFixtureDef.shape = new game.Box2D.CircleShape(this.sprite.width / 2 * game.Box2D.SCALE);
-            // sensorFixtureDef.isSensor = true;
             sensorFixtureDef.density = 300;
             sensorFixtureDef.friction = 0.8;
             sensorFixtureDef.restitution = 0;
             this.sensor_fixture = this.body.CreateFixture(sensorFixtureDef);
             this.sensor_fixture.SetUserData("PlayerSensor");
             this.sensor_fixture.GetShape().SetLocalPosition(new game.Box2D.Vec2(0, this.sprite.height / 2 * game.Box2D.SCALE));
+
+            this.body.SetUserData(this);
+
+            this.sensorContactListener = new game.Box2D.ContactListener();
+            game.scene.Box2Dworld.SetContactListener(this.sensorContactListener);
+            this.sensorContactListener.BeginContact = function(contact) {
+                var player = getBodyFromFixture("PlayerSensor", contact);
+                player.isGrounded = true;
+            };
+            this.sensorContactListener.EndContact = function(contact) {
+                var player = getBodyFromFixture("PlayerSensor", contact);
+                player.isGrounded = false;
+            };
         },
 
         update: function() {
@@ -77,35 +88,34 @@ game.module('game.player')
             else {
                 this.body.SetLinearVelocity(new game.Box2D.Vec2(vel.x * 0.8, vel.y));
             }
-
-            this.groundedExpireTime -= 1000 * game.system.delta;
-
-            this.isGrounded = this.isSensorContacting();
-            if (game.keyboard.down("SPACE") || game.keyboard.down("W") || game.keyboard.down("UP")) {
+        },
+        
+        keydown: function(key) {
+            if (key === "SPACE" || key === "W" || key === "UP") {
                 if (this.isGrounded && this.groundedExpireTime <= 0) {
-                    this.body.ApplyImpulse(new game.Box2D.Vec2(0, -500), this.body.GetLocalCenter());
-                    this.isGrounded = false;
-                    this.groundedExpireTime = 100;
+                    // this.body.ApplyImpulse(new game.Box2D.Vec2(0, -1000), this.body.GetLocalCenter());
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(0, -6));
                 }
             }
-            // else if(this.body.GetLinearVelocity().y < 0) {
-            //     this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, 0));
-            // }
         },
 
-        isSensorContacting: function() {
-            var playerContact = this.body.GetContactList();
-
-            for (var c = game.scene.Box2Dworld.GetContactList(); c ; c = c.GetNext())
-            {
-                if (c.GetFixtureA().GetUserData() == "PlayerSensor" || c.GetFixtureB().GetUserData() == "PlayerSensor") {
-                // if ((c.GetFixtureA().GetUserData() == "PlayerSensor" && c.GetFixtureB().GetUserData() == "SphereFragment") || 
-                //     (c.GetFixtureB().GetUserData() == "PlayerSensor" && c.GetFixtureB().GetUserData() == "SphereFragment")) {
-                //     console.log(c);
-                    return true;
-                }
+        keyup: function(key) {
+            if (key === "SPACE" || key === "W" || key === "UP") {
             }
-            return false;
         }
     });
+
+    function getBodyFromFixture(userData, contact) {
+        var userdata_fixtureA = contact.GetFixtureA().GetUserData();
+        var userdata_fixtureB = contact.GetFixtureB().GetUserData();
+
+        var fixture = null;
+
+        if (userdata_fixtureA === userData) {
+            fixture = contact.GetFixtureA();
+        } else if (userdata_fixtureB === userData) {
+            fixture = contact.GetFixtureB();
+        }
+        return fixture.GetBody().GetUserData();
+    };
 });

@@ -109,12 +109,16 @@ game.module(
         },
 
         keydown: function(key) {
+            // Pass keydown event to player
+            this.player.keydown(key);
             if (key === 'SPACE') {
                 
             }
         },
 
         keyup: function(key) {
+            // Pass keyup event to player
+            this.player.keyup(key);
             if (key === 'Q') {
                 this.gameOver();
             }
