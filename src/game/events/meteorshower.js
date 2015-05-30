@@ -1,7 +1,7 @@
-game.module('game.events.meteors')
+game.module('game.events.meteorshower')
 .require('game.meteor')
 .body(function() {
-    game.createClass('Meteors', {
+    game.createClass('Meteorshower', {
         counter: 0,
 
         init: function(waveSize) {

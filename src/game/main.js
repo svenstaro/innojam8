@@ -7,7 +7,7 @@ game.module(
 .require('game.worldsphere')
 .require('game.sphere_fragment')
 .require('game.player')
-.require('game.events.meteors')
+.require('game.events.meteorshower')
 .body(function() {
     game.addAsset('logo.png');
     game.addAsset('background.png');
@@ -40,7 +40,7 @@ game.module(
 
             this.updateLayersOrder();
             setTimeout(function() {
-                // new game.Meteors(10);
+                new game.Meteorshower(10);
             }, 1000);
         },
 
