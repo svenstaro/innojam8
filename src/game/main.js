@@ -3,6 +3,7 @@ game.module(
 )
 .require('plugins.box2d')
 .require('game.game_over')
+.require('game.main_menu')
 .require('game.worldsphere')
 .require('game.sphere_fragment')
 .require('game.player')
