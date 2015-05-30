@@ -45,7 +45,6 @@ game.module('game.player')
 
             this.player_fixture = this.body.CreateFixture(fixtureDef);
             this.player_fixture.SetUserData("PlayerMainFixture");
-            console.log(this.body.GetMass());
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
             sensorFixtureDef.shape = new game.Box2D.CircleShape(this.sprite.width / 2 * game.Box2D.SCALE);
