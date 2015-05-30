@@ -23,7 +23,7 @@ game.module('game.meteor')
             fixtureDef.friction = 0.1;
             fixtureDef.restitution = 0;
             this.body.CreateFixture(fixtureDef);
-            this.body.SetLinearVelocity(game.b2dvec(velocity.x*10, velocity.y*10));
+            this.body.SetLinearVelocity(game.b2dvec(velocity.x, velocity.y));
         },
         update: function() {
             var p = this.body.GetPosition();

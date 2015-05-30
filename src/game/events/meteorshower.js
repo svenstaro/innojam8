@@ -16,8 +16,8 @@ game.module('game.events.meteorshower')
             targetPosition.x += Math.random()*20;
             targetPosition.y += Math.random()*20;
             var velocity = {
-                x: targetPosition.x - x,
-                y: targetPosition.y - y
+                x: (targetPosition.x - x)*2,
+                y: (targetPosition.y - y)*2
             }
             var size = 40 + Math.random()*60;
 
