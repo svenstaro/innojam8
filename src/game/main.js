@@ -74,11 +74,11 @@ game.module(
             this._super();
 
             score += game.system.delta;
-            this.difficulty = Math.floor(game.system.timer.time() / 5000);
+            this.difficulty += game.system.delta / 5;
 
             this.scoreText.setText("Time: " + Math.floor(score * 100)/100);
             this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
-            this.difficultyText.setText("Difficulty: " + this.difficulty);
+            this.difficultyText.setText("Difficulty: " + Math.floor(this.difficulty));
 
             //The following code is needed to update the time in the box2d world.
             //The values below are fine as default values, feel free to look up more info in the reference.
@@ -91,7 +91,7 @@ game.module(
             this.Box2Dworld.ClearForces();
 
             if (this.player.sprite.position.y > game.system.height + 100
-                || this.player.sprite.position.y < -100
+                || this.player.sprite.position.y < -300
                 || this.player.sprite.position.x > game.system.width + 100
                 || this.player.sprite.position.x < -100) {
                 this.gameOver();
