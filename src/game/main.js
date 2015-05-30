@@ -90,7 +90,10 @@ game.module(
             //The world has been updated. Now get rid of forces that had been set during the previous cicle.
             this.Box2Dworld.ClearForces();
 
-            if (this.player.sprite.position.y > game.system.height) {
+            if (this.player.sprite.position.y > game.system.height + 100
+                || this.player.sprite.position.y < -100
+                || this.player.sprite.position.x > game.system.width + 100
+                || this.player.sprite.position.x < -100) {
                 this.gameOver();
             }
         },
