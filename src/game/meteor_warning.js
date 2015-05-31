@@ -25,34 +25,23 @@ game.module('game.meteor_warning')
                 this.sprite.remove();
                 game.scene.removeObject(this);
             }
-            // if (this.blinkIntervalElapsed >= this.blinkInterval) {
-            //     this.blinkIntervalElapsed = 0;
-            //     this.sprite.visible = !this.sprite.visible;
-            // }
+            if (this.blinkIntervalElapsed >= this.blinkInterval) {
+                this.blinkIntervalElapsed = 0;
+                this.sprite.visible = !this.sprite.visible;
+            }
         },
 
         getEdgePos: function() {
             var pos = this.sprite.position;
             var fraction = 0;
 
-            // if (pos.x < 0 && pos.y > 0) {
-            //     fraction = pos.x / this.velocity.x;
-            //     pos.y = this.velocity.y * fraction;
-            // } else if (pos.x > game.system.width && pos.y > 0) {
-            //     fraction = (pos.x - game.system.width) / this.velocity.x;
-            //     pos.y = this.velocity.y * fraction;
-            // } else if (pos.y < 0 && pos.x > 0 && pos.x < game.system.width) {
-            //     fraction = pos.y / this.velocity.y;
-            //     pos.x = this.velocity.x * fraction;
-            // }
-
-            if (pos.x < 0) {
-                pos.x = 0;
+            if (pos.x - this.size < 0) {
+                pos.x = 0 + this.size;
             } else if (pos.x + this.size > game.system.width) {
                 pos.x = game.system.width - this.size;
             }
-            if (pos.y < 0) {
-                pos.y = 0;
+            if (pos.y - this.size / 2 < 0) {
+                pos.y = 0 + this.size / 2;
             }
 
             this.sprite.position.x = pos.x;
