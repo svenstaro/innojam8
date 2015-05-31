@@ -1,11 +1,11 @@
 game.module('game.meteor_warning')
 .require('game.b2dvec')
 .body(function() {
-    // game.addAsset('meteor.png');
+    game.addAsset('warning.png');
 
     game.createClass('MeteorWarning', {
         init: function(x, y, size, velocity) {
-            this.sprite = new game.Sprite('meteor.png', x, y, {width: size, height: size, anchor: {x: 0.5, y: 0.5}});
+            this.sprite = new game.Sprite('warning.png', x, y, {width: size, height: size, anchor: {x: 0.5, y: 0.5}});
             this.sprite.addTo(game.scene.stage);
             game.scene.addObject(this);
             this.velocity = velocity;
@@ -15,7 +15,6 @@ game.module('game.meteor_warning')
             this.blinkInterval = this.blinkTime / 10;
             this.blinkIntervalElapsed = 0;
             this.getEdgePos();
-            console.log(this);
         },
 
         update: function() {

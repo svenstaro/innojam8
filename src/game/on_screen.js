@@ -6,8 +6,8 @@ game.module('game.on_screen')
             x = x.x;
         }
 
-        return y < game.system.height + 100 && 
-                x < game.system.width + 100 && 
-                x > -100;
+        return y < game.system.height + 300 && 
+                x < game.system.width + 300 && 
+                x > -300;
     }
 });

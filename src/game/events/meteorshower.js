@@ -18,7 +18,7 @@ game.module('game.events.meteorshower')
                 }
                 
                 var x;
-                var y = -300 + Math.random()*600;
+                var y = -200 + Math.random()*600;
                 if (Math.random > 0.5) {
                     x = -100;
                 } else {
