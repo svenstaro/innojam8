@@ -19,9 +19,9 @@ game.module('game.meteor')
                 this.sprite.width / 2 * game.Box2D.SCALE,
                 this.sprite.height / 2 * game.Box2D.SCALE
             );
-            fixtureDef.density = size;
+            fixtureDef.density = size*100;
             fixtureDef.friction = 0.1;
-            fixtureDef.restitution = 0;
+            fixtureDef.restitution = 0.2;
             var meteor_fixture = this.body.CreateFixture(fixtureDef);
             meteor_fixture.SetUserData("meteor");
             this.body.SetLinearVelocity(game.b2dvec(velocity.x, velocity.y));
