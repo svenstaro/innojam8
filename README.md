@@ -1,4 +1,4 @@
-# Hyper Oktoagon
+# Hyper Oktagon
 
 Survival action game for InnoGames Games Jam 8
 
