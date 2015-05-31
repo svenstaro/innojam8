@@ -6,7 +6,7 @@ game.module('game.events.meteorshower')
 
         init: function(difficulty) {
             this.difficulty = difficulty;
-            this.waveSize = Math.round(this.difficulty * Math.random() * 3);
+            this.waveSize = Math.round(this.difficulty * Math.random());
             this.spawnMeteor();
         },
 

@@ -59,10 +59,10 @@ game.module('game.player')
             // Create box2d fixture
             var fixtureDef = new game.Box2D.FixtureDef;
             fixtureDef.shape = new game.Box2D.PolygonShape.AsBox(
-                w / 2 * game.Box2D.SCALE,
-                h / 2 * game.Box2D.SCALE
+                w * game.Box2D.SCALE,
+                (h-w/2) * game.Box2D.SCALE
             );
-            fixtureDef.density = 250;     // density has influence on collisions
+            fixtureDef.density = 70;     // density has influence on collisions
             fixtureDef.friction = 0;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
             fixtureDef.restitution = 0; // => Bounciness (range: 0-1).
 
@@ -70,13 +70,13 @@ game.module('game.player')
             this.player_fixture.SetUserData("PlayerMainFixture");
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
-            sensorFixtureDef.shape = new game.Box2D.CircleShape(w / 2 * game.Box2D.SCALE);
+            sensorFixtureDef.shape = new game.Box2D.CircleShape(w * game.Box2D.SCALE);
             sensorFixtureDef.density = 100;
             sensorFixtureDef.friction = 0.8;
             sensorFixtureDef.restitution = 0;
             this.sensor_fixture = this.body.CreateFixture(sensorFixtureDef);
             this.sensor_fixture.SetUserData("PlayerSensor");
-            this.sensor_fixture.GetShape().SetLocalPosition(new game.Box2D.Vec2(0, h / 2 * game.Box2D.SCALE));
+            this.sensor_fixture.GetShape().SetLocalPosition(new game.Box2D.Vec2(0, (h - w) * game.Box2D.SCALE));
 
             this.body.SetUserData(this);
         },
