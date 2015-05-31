@@ -42,7 +42,7 @@ game.module('game.meteor')
 
             this.body.SetUserData(this);
             this.destroy = false;
-            this.destroyTime = 500;
+            this.destroyTime = 5000;
         },
 
         update: function() {
