@@ -49,7 +49,7 @@ game.module(
             this.timeInScene = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
-            this.gravity = 6000;
+            this.gravity = 9001;
 
             this.camera = new game.Camera();
             this.camera.addTo(game.scene.stage);

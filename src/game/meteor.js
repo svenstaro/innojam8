@@ -19,7 +19,7 @@ game.module('game.meteor')
                 this.sprite.width / 2 * game.Box2D.SCALE,
                 this.sprite.height / 2 * game.Box2D.SCALE
             );
-            fixtureDef.density = size*1000;
+            fixtureDef.density = size*800;
             fixtureDef.friction = 0.1;
             fixtureDef.restitution = 0.2;
             var meteor_fixture = this.body.CreateFixture(fixtureDef);

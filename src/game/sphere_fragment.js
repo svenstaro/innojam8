@@ -38,9 +38,9 @@ game.module('game.sphere_fragment')
             //density has influence on collisions
             fixtureDef.density = 0;       
             //A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
-            fixtureDef.friction = 0.5;      
+            fixtureDef.friction = 0.8;      
             //=Bounciness (range: 0-1).
-            fixtureDef.restitution = 0.1;
+            fixtureDef.restitution = 0.05;
             var fragment_fixture = this.body.CreateFixture(fixtureDef);
             fragment_fixture.SetUserData("SphereFragment");
         },

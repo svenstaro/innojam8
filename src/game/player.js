@@ -37,7 +37,7 @@ game.module('game.player')
             // ----- Animation reels
 
             // Player properties
-            this.speed = 600;
+            this.speed = 900;
             this.numberOfContacts = 0;
             this.isGrounded = false;
 
@@ -63,14 +63,14 @@ game.module('game.player')
                 (h-w/2) * game.Box2D.SCALE
             );
             fixtureDef.density = 70;     // density has influence on collisions
-            fixtureDef.friction = 0;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
+            fixtureDef.friction = 0.5;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
             fixtureDef.restitution = 0; // => Bounciness (range: 0-1).
 
             this.player_fixture = this.body.CreateFixture(fixtureDef);
             this.player_fixture.SetUserData("PlayerMainFixture");
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
-            sensorFixtureDef.shape = new game.Box2D.CircleShape(w * game.Box2D.SCALE);
+            sensorFixtureDef.shape = new game.Box2D.CircleShape(w * 1.1 * game.Box2D.SCALE);
             sensorFixtureDef.density = 100;
             sensorFixtureDef.friction = 0.8;
             sensorFixtureDef.restitution = 0;
@@ -141,14 +141,14 @@ game.module('game.player')
 
         keyup: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
-                if (this.body.GetLinearVelocity().y < -5) {
-                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -5));
+                if (this.body.GetLinearVelocity().y < -4) {
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -4));
                 }
             }
         },
 
         jump: function() {
-            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -14));
+            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -18));
         }
     });
 });
