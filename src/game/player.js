@@ -79,29 +79,6 @@ game.module('game.player')
             this.sensor_fixture.GetShape().SetLocalPosition(new game.Box2D.Vec2(0, h / 2 * game.Box2D.SCALE));
 
             this.body.SetUserData(this);
-
-            this.sensorContactListener = new game.Box2D.ContactListener();
-            game.scene.Box2Dworld.SetContactListener(this.sensorContactListener);
-            var that = this;
-            this.sensorContactListener.BeginContact = function(contact) {
-                var player = getObjectFromFixture("PlayerSensor", contact);
-                if (player != null) {
-                    that.numberOfContacts++;
-                    that.isGrounded = true;
-                    if (game.keyboard.down('SPACE') || game.keyboard.down('W') || game.keyboard.down('UP')) {
-                        that.jump();
-                    }
-                }
-            };
-            this.sensorContactListener.EndContact = function(contact) {
-                var player = getObjectFromFixture("PlayerSensor", contact);
-                if (player != null) {
-                    that.numberOfContacts--;
-                }
-                if (that.numberOfContacts <= 0) {
-                    that.isGrounded = false;
-                }
-            };
         },
 
         update: function() {
@@ -174,21 +151,4 @@ game.module('game.player')
             this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -14));
         }
     });
-
-    function getObjectFromFixture(userData, contact) {
-        var userdata_fixtureA = contact.GetFixtureA().GetUserData();
-        var userdata_fixtureB = contact.GetFixtureB().GetUserData();
-
-        var fixture = null;
-
-        if (userdata_fixtureA === userData) {
-            fixture = contact.GetFixtureA();
-        } else if (userdata_fixtureB === userData) {
-            fixture = contact.GetFixtureB();
-        }
-        if (fixture != null) {
-            return fixture.GetBody().GetUserData();
-        }
-        return null;
-    };
 });

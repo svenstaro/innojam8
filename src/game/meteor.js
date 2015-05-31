@@ -39,20 +39,33 @@ game.module('game.meteor')
             this.emitter.life = 500;
             this.emitter.liveVar = 100;
             game.scene.addEmitter(this.emitter);
+
+            this.body.SetUserData(this);
+            this.destroy = false;
+            this.destroyTime = 2000;
         },
+
         update: function() {
             var p = this.body.GetPosition();
             this.sprite.position.x = p.x / game.Box2D.SCALE;
             this.sprite.position.y = p.y / game.Box2D.SCALE;
             this.sprite.rotation = this.body.GetAngle().round(2);
 
-            if (!game.onScreen(this.sprite.position)) {
-                game.scene.Box2Dworld.DestroyBody(this.body);
-                this.sprite.remove();
-                this.emitter.remove();
-                game.scene.removeEmitter(this.emitter);
-                game.scene.removeObject(this);
+            if (this.destroy) {
+                this.destroyTime -= 1000 * game.system.delta;
             }
+
+            if (!game.onScreen(this.sprite.position) || this.destroy && this.destroyTime <= 0) {
+                this.remove();
+            }
+        },
+
+        remove: function() {
+            game.scene.Box2Dworld.DestroyBody(this.body);
+            this.sprite.remove();
+            this.emitter.remove();
+            game.scene.removeEmitter(this.emitter);
+            game.scene.removeObject(this);
         }
     });
 });
