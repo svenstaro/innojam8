@@ -43,6 +43,7 @@ game.module('game.sphere_fragment')
             var fragment_fixture = this.body.CreateFixture(fixtureDef);
             fragment_fixture.SetUserData("SphereFragment");
         },
+
         update: function(){
             //The box2D world keeps track of the movement and position of the body.
             //use the update function to get the sprite in the right spot
