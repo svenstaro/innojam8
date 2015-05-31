@@ -50,6 +50,10 @@ game.module(
             game.Box2D.SCALE = 0.01;
             this.gravity = 6000;
 
+            this.camera = new game.Camera();
+            this.camera.addTo(game.scene.stage);
+            this.transitionShake = 0;
+
             this.screenBlend = new game.Graphics();
             this.screenBlend.beginFill(0xFFFFFF, 1);
             this.screenBlend.drawRect(0, 0, game.system.width, game.system.height);
@@ -161,12 +165,17 @@ game.module(
 
             this.pixelatefilter.size.x = Math.random() * 1 * this.difficulty + 1;
             this.pixelatefilter.size.y = Math.random() * 2 * this.difficulty + 1;
+
+            var cam_shake = 5 * this.difficulty + this.transitionShake;
+            this.camera.offset.x = (game.system.width / 2) + Math.random() * cam_shake - cam_shake / 2;
+            this.camera.offset.y = (game.system.height / 2) + Math.random() * cam_shake - cam_shake / 2;
         },
 
         difficultyTransition: function() {
             this.difficultyTransitionText.setText("New stage " + this.difficulty);
             this.difficultyTransitionText.alpha = 1;
             this.screenBlend.alpha = 1;
+            this.transitionShake = 50;
 
             var tween_text = new game.Tween(this.difficultyTransitionText);
             tween_text.to({'alpha': 0}, 2000);
@@ -174,9 +183,14 @@ game.module(
             tween_text.delay(1000);
             tween_text.start();
 
+            var tween_shake = new game.Tween(this);
+            tween_shake.to({'transitionShake': 0}, 1000);
+            tween_shake.easing('Exponential.InOut');
+            tween_shake.start();
+
             var tween_screen = new game.Tween(this.screenBlend);
-            tween_screen.to({'alpha': 0}, 1000);
-            tween_screen.easing('Exponential.InOut');
+            tween_screen.to({'alpha': 0}, 3000);
+            tween_screen.easing('Quadratic.InOut');
             tween_screen.start();
         },
 
