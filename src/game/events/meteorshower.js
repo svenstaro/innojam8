@@ -5,8 +5,9 @@ game.module('game.events.meteorshower')
         counter: 0,
 
         init: function(difficulty) {
-            this.difficulty = difficulty;
-            this.waveSize = this.difficulty;
+            this.difficulty = difficulty + 1;
+            this.waveSize = Math.round(this.difficulty * Math.random() * 3);
+            console.log(this.waveSize);
             this.spawnMeteor();
         },
 
@@ -23,8 +24,8 @@ game.module('game.events.meteorshower')
                 targetPosition.x += Math.random()*40/this.difficulty;
                 targetPosition.y += Math.random()*40/this.difficulty;
                 var velocity = {
-                    x: (targetPosition.x - x)*2,
-                    y: (targetPosition.y - y)*2
+                    x: (targetPosition.x - x),
+                    y: (targetPosition.y - y)
                 }
                 var size = 40 + Math.random()*60;
 

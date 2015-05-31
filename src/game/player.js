@@ -13,7 +13,7 @@ game.module('game.player')
             });
 
             // Player properties
-            this.speed = 450;
+            this.speed = 600;
             this.numberOfContacts = 0;
 
             game.scene.addObject(this);
@@ -47,7 +47,7 @@ game.module('game.player')
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
             sensorFixtureDef.shape = new game.Box2D.CircleShape(this.sprite.width / 2 * game.Box2D.SCALE);
-            sensorFixtureDef.density = 300;
+            sensorFixtureDef.density = 100;
             sensorFixtureDef.friction = 0.8;
             sensorFixtureDef.restitution = 0;
             this.sensor_fixture = this.body.CreateFixture(sensorFixtureDef);
@@ -108,14 +108,14 @@ game.module('game.player')
 
         keyup: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
-                if (this.body.GetLinearVelocity().y < -6) {
-                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -6));
+                if (this.body.GetLinearVelocity().y < -5) {
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -5));
                 }
             }
         },
 
         jump: function() {
-            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -12));
+            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -13.5));
         }
     });
 

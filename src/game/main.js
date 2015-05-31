@@ -40,10 +40,11 @@ game.module(
             this.gridmovement.animationSpeed = 0.05;
             this.gridmovement.play();
             this.gridmovement.position.set(0, 0);
+            this.gridmovement.zIndex = 99;
             game.scene.stage.addChild(this.gridmovement);
 
             score = 0;
-            this.difficulty = 0;
+            this.difficulty = 1;
             this.timeInScene = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
