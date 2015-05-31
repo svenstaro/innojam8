@@ -11,6 +11,7 @@ game.module(
 .require('game.sort_z_index')
 .require('game.events.meteorshower')
 .require('game.events.rotate')
+.require('game.on_screen')
 .body(function() {
     game.addAsset('logo.png');
     game.addAsset('background.png');
@@ -46,7 +47,7 @@ game.module(
             this.timeInScene = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
-            this.gravity = 1000;
+            this.gravity = 3000;
 
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
@@ -59,7 +60,7 @@ game.module(
 
             this.player = new game.Player(game.system.width/2, 200, 50, 100);
 
-            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 300, 400);
+            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 400, 400);
 
             this.scoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
@@ -105,10 +106,7 @@ game.module(
             //The world has been updated. Now get rid of forces that had been set during the previous cicle.
             this.Box2Dworld.ClearForces();
 
-            if (this.player.sprite.position.y > game.system.height + 100
-                || this.player.sprite.position.y < -300
-                || this.player.sprite.position.x > game.system.width + 100
-                || this.player.sprite.position.x < -100) {
+            if (!game.onScreen(this.player.sprite.position)) {
                 this.gameOver();
             }
 
