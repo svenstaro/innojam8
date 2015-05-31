@@ -71,19 +71,35 @@ game.module(
 
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 400, 400);
 
+            var bodyDef = new game.Box2D.BodyDef();
+            bodyDef.position = game.b2dvec(0, -300);            
+            bodyDef.type = game.Box2D.Body.b2_staticBody;
+
+            var wall = game.scene.Box2Dworld.CreateBody(bodyDef);
+            var fixtureDef = new game.Box2D.FixtureDef;
+            fixtureDef.shape = new game.Box2D.PolygonShape.AsBox(
+                game.system.width * game.Box2D.SCALE,
+                100 * game.Box2D.SCALE
+            );
+            fixtureDef.density = 250;     // density has influence on collisions
+            fixtureDef.friction = 0;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
+            fixtureDef.restitution = 0.5; // => Bounciness (range: 0-1).
+
+            wall.CreateFixture(fixtureDef);
+
             this.scoreText = new game.PIXI.Text(score, {font: '50px ibmfont', fill: '#f0a'});
             this.scoreText.zIndex = 30;
-            this.scoreText.position = {x: 10, y: 10};
+            this.scoreText.position = {x: 20, y: 10};
             this.stage.addChild(this.scoreText);
 
             this.highscoreText = new game.PIXI.Text(score, {font: '40px ibmfont', fill: '#f0a'});
             this.highscoreText.zIndex = 30;
-            this.highscoreText.position = {x: 10, y: 60};
+            this.highscoreText.position = {x: 20, y: 60};
             this.stage.addChild(this.highscoreText);
 
-            this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
+            this.difficultyText = new game.PIXI.Text("Stage: " + this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
             this.difficultyText.zIndex = 30;
-            this.difficultyText.position = {x: game.system.width - 500, y: 10};
+            this.difficultyText.position = {x: game.system.width - this.difficultyText.width -60, y: 10};
             this.stage.addChild(this.difficultyText);
 
             this.difficultyTransitionText = new game.PIXI.Text("", {font: '100px ibmfont', fill: '#f0a'});
@@ -119,7 +135,7 @@ game.module(
 
             this.scoreText.setText("Time: " + score);
             this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
-            this.difficultyText.setText("Difficulty: " + this.difficulty);
+            this.difficultyText.setText("Stage: " + this.difficulty);
 
             //The following code is needed to update the time in the box2d world.
             //The values below are fine as default values, feel free to look up more info in the reference.

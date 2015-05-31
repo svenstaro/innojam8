@@ -7,7 +7,6 @@ game.module('game.on_screen')
         }
 
         return y < game.system.height + 100 && 
-                y > -300 && 
                 x < game.system.width + 100 && 
                 x > -100;
     }

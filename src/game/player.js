@@ -24,7 +24,7 @@ game.module('game.player')
             bodyDef.position = new game.Box2D.Vec2(
                 this.sprite.position.x * game.Box2D.SCALE,
                 this.sprite.position.y * game.Box2D.SCALE
-            ); 
+            );
             
             bodyDef.type = game.Box2D.Body.b2_dynamicBody;
             bodyDef.allowSleep = false;
