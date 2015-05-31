@@ -90,9 +90,9 @@ game.module(
             var delta = game.system.delta;
             this.timeInScene += delta;
             this.difficulty = Math.floor(this.timeInScene / 10);
-            score += this.timeInScene;
+            score = Math.floor(this.timeInScene * 100) / 100;
 
-            this.scoreText.setText("Time: " + Math.floor(score * 100)/100);
+            this.scoreText.setText("Time: " + score);
             this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
             this.difficultyText.setText("Difficulty: " + this.difficulty);
 
@@ -123,7 +123,6 @@ game.module(
         },
 
         gameOver: function() {
-            score = Math.floor(score*100)/100
             if (score > highscore) {
                 highscore = this.score;
                 game.storage.set('highscore', score);
