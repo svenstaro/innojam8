@@ -96,6 +96,8 @@ game.module('game.player')
             else {
                 this.body.SetLinearVelocity(new game.Box2D.Vec2(vel.x * 0.8, vel.y));
             }
+
+            this.body.ApplyForce(new game.Box2D.Vec2(0, game.scene.gravity), this.body.GetWorldCenter());
         },
         
         keydown: function(key) {

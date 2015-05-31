@@ -56,8 +56,9 @@ game.module(
                 game.storage.set('highscore', highscore);
             }
 
-            var gravity = new game.Box2D.Vec2(0, this.gravity * game.Box2D.SCALE);// gravity pull x, y
-            this.Box2Dworld = new game.Box2D.World(gravity, true);
+            //var gravity = new game.Box2D.Vec2(0, this.gravity * game.Box2D.SCALE);// gravity pull x, y
+            var gravity = new game.Box2D.Vec2(0, 0);
+            this.Box2Dworld = new game.Box2D.World(gravity, false);
 
             this.player = new game.Player(game.system.width/2, 200, 50, 100);
 
