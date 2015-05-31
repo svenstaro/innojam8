@@ -148,7 +148,7 @@ game.module('game.player')
         },
 
         jump: function() {
-            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -18));
+            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -16));
         }
     });
 });
