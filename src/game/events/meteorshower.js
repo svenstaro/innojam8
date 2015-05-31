@@ -1,5 +1,6 @@
 game.module('game.events.meteorshower')
 .require('game.meteor')
+.require('game.meteor_warning')
 .body(function() {
     game.createClass('Meteorshower', {
         counter: 0,
@@ -33,15 +34,18 @@ game.module('game.events.meteorshower')
                     y: (targetPosition.y - y) * speedFactor
                 }
                 var size = 40 + Math.random()*60;
+                
+                new game.MeteorWarning(x, y, size, velocity);
 
-                new game.Meteor(x, y, size, velocity);
                 this.counter++;
 
                 var that = this;
-
                 setTimeout(function() {
-                    that.spawnMeteor();
-                }, 1000);
+                    setTimeout(function() {
+                        that.spawnMeteor();
+                    }, 1000);
+                    new game.Meteor(x, y, size, velocity);
+                }, 2000);
             }
         }
     });
