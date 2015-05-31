@@ -70,7 +70,7 @@ game.module('game.player')
             this.player_fixture.SetUserData("PlayerMainFixture");
 
             var sensorFixtureDef = new game.Box2D.FixtureDef;
-            sensorFixtureDef.shape = new game.Box2D.CircleShape(w * 1.1 * game.Box2D.SCALE);
+            sensorFixtureDef.shape = new game.Box2D.CircleShape(w * 1.3 * game.Box2D.SCALE);
             sensorFixtureDef.density = 100;
             sensorFixtureDef.friction = 0.8;
             sensorFixtureDef.restitution = 0;
