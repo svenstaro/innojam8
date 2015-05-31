@@ -11,7 +11,7 @@ game.module('game.main_menu')
             this.pixelatefilter = new game.PIXI.PixelateFilter();
             this.stage.filters = [this.rgbfilter, this.pixelatefilter];
 
-            var text = new game.PIXI.Text('Press any key to play', { font: '40px Arial', fill: '#f0a', align: 'center'});
+            var text = new game.PIXI.Text('Press space to start!', { font: '40px Arial', fill: '#f0a', align: 'center'});
             text.position = {x: game.system.width - text.width - 100, y: game.system.height - text.height - 100};
             this.stage.addChild(text);
 
@@ -33,8 +33,10 @@ game.module('game.main_menu')
             this.pixelatefilter.size.y = Math.random() * 2 + 3;
         },
 
-        keyup: function() {
-            game.system.setScene('Main');
+        keyup: function(key) {
+            if (key == 'SPACE') {
+                game.system.setScene('Main');
+            }
         }
     });
 });
