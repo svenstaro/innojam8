@@ -11,6 +11,7 @@ game.module(
 .require('game.sort_z_index')
 .require('game.events.meteorshower')
 .require('game.events.rotate')
+.require('game.on_screen')
 .body(function() {
     game.addAsset('logo.png');
     game.addAsset('background.png');
@@ -90,10 +91,7 @@ game.module(
             //The world has been updated. Now get rid of forces that had been set during the previous cicle.
             this.Box2Dworld.ClearForces();
 
-            if (this.player.sprite.position.y > game.system.height + 100
-                || this.player.sprite.position.y < -300
-                || this.player.sprite.position.x > game.system.width + 100
-                || this.player.sprite.position.x < -100) {
+            if (!game.onScreen(this.player.sprite.position)) {
                 this.gameOver();
             }
         },

@@ -105,8 +105,8 @@ game.module('game.player')
 
         keyup: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
-                if (this.body.GetLinearVelocity().y < 0) {
-                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, 0));
+                if (this.body.GetLinearVelocity().y < -3) {
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -3));
                 }
             }
         }
