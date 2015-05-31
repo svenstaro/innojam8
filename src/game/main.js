@@ -14,6 +14,7 @@ game.module(
 .require('game.on_screen')
 .body(function() {
     game.addAsset('logo.png');
+    game.addAsset('movement.png');
     game.addAsset('background.png');
     //add animation of the grid
     game.addAsset('Grid_sprite_01.png', 'grid1');
