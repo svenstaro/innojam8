@@ -51,6 +51,17 @@ game.module(
             game.Box2D.SCALE = 0.01;
             this.gravity = 6000;
 
+            this.camera = new game.Camera();
+            this.camera.addTo(game.scene.stage);
+            this.transitionShake = 0;
+
+            this.screenBlend = new game.Graphics();
+            this.screenBlend.beginFill(0xFFFFFF, 1);
+            this.screenBlend.drawRect(0, 0, game.system.width, game.system.height);
+            this.screenBlend.endFill();
+            this.screenBlend.zIndex = 20;
+            game.scene.stage.addChild(this.screenBlend);
+
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
                 highscore = 0;
@@ -82,16 +93,24 @@ game.module(
             wall.CreateFixture(fixtureDef);
 
             this.scoreText = new game.PIXI.Text(score, {font: '50px ibmfont', fill: '#f0a'});
+            this.scoreText.zIndex = 30;
             this.scoreText.position = {x: 20, y: 10};
             this.stage.addChild(this.scoreText);
 
             this.highscoreText = new game.PIXI.Text(score, {font: '40px ibmfont', fill: '#f0a'});
+            this.highscoreText.zIndex = 30;
             this.highscoreText.position = {x: 20, y: 60};
             this.stage.addChild(this.highscoreText);
 
-            this.difficultyText = new game.PIXI.Text('Stage: ' + this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
-            this.difficultyText.position = {x: game.system.width - this.difficultyText.width - 60, y: 10};
+            this.difficultyText = new game.PIXI.Text("Stage: " + this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
+            this.difficultyText.zIndex = 30;
+            this.difficultyText.position = {x: game.system.width - this.difficultyText.width -60, y: 10};
             this.stage.addChild(this.difficultyText);
+
+            this.difficultyTransitionText = new game.PIXI.Text("", {font: '100px ibmfont', fill: '#f0a'});
+            this.difficultyTransitionText.position = {x: game.system.width/2 - 400, y: game.system.height/2 - 400};
+            this.difficultyTransitionText.zIndex = 10;
+            this.stage.addChild(this.difficultyTransitionText);
 
             var bg = new game.Sprite('background.png')
             bg.zIndex = 100;
@@ -100,7 +119,11 @@ game.module(
             this.eventmaster = new game.EventMaster();
 
             game.scene.addObject(this.eventmaster);
+
             game.sortZIndex();
+
+            var that = this;
+            setTimeout(function() {that.difficultyTransition() }, 1000);
         },
 
         update: function() {
@@ -108,7 +131,11 @@ game.module(
 
             var delta = game.system.delta;
             this.timeInScene += delta;
-            this.difficulty = 1 + Math.floor(this.timeInScene / 10);
+            var new_difficulty = 1 + Math.floor(this.timeInScene / 10);
+            if (this.difficulty !== new_difficulty) {
+                this.difficulty = new_difficulty;
+                this.difficultyTransition();
+            }
             score = Math.floor(this.timeInScene * 100) / 100;
 
             this.scoreText.setText("Time: " + score);
@@ -139,6 +166,33 @@ game.module(
 
             this.pixelatefilter.size.x = Math.random() * 1 * this.difficulty + 1;
             this.pixelatefilter.size.y = Math.random() * 2 * this.difficulty + 1;
+
+            var cam_shake = 5 * this.difficulty + this.transitionShake;
+            this.camera.offset.x = (game.system.width / 2) + Math.random() * cam_shake - cam_shake / 2;
+            this.camera.offset.y = (game.system.height / 2) + Math.random() * cam_shake - cam_shake / 2;
+        },
+
+        difficultyTransition: function() {
+            this.difficultyTransitionText.setText("New stage " + this.difficulty);
+            this.difficultyTransitionText.alpha = 1;
+            this.screenBlend.alpha = 1;
+            this.transitionShake = 50;
+
+            var tween_text = new game.Tween(this.difficultyTransitionText);
+            tween_text.to({'alpha': 0}, 2000);
+            tween_text.easing('Exponential.InOut');
+            tween_text.delay(1000);
+            tween_text.start();
+
+            var tween_shake = new game.Tween(this);
+            tween_shake.to({'transitionShake': 0}, 1000);
+            tween_shake.easing('Exponential.InOut');
+            tween_shake.start();
+
+            var tween_screen = new game.Tween(this.screenBlend);
+            tween_screen.to({'alpha': 0}, 3000);
+            tween_screen.easing('Quadratic.InOut');
+            tween_screen.start();
         },
 
         gameOver: function() {
