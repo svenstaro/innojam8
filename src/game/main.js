@@ -64,16 +64,16 @@ game.module(
 
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 400, 400);
 
-            this.scoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
+            this.scoreText = new game.PIXI.Text(score, {font: '50px ibmfont', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
 
-            this.highscoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
-            this.highscoreText.position = {x: 10, y: 50};
+            this.highscoreText = new game.PIXI.Text(score, {font: '40px ibmfont', fill: '#f0a'});
+            this.highscoreText.position = {x: 10, y: 60};
             this.stage.addChild(this.highscoreText);
 
-            this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '40px Arial', fill: '#f0a'});
-            this.difficultyText.position = {x: game.system.width - 300, y: 10};
+            this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
+            this.difficultyText.position = {x: game.system.width - 500, y: 10};
             this.stage.addChild(this.difficultyText);
 
             var bg = new game.Sprite('background.png')
