@@ -6,7 +6,7 @@ game.module('game.game_over')
             this.pixelatefilter = new game.PIXI.PixelateFilter();
             game.scene.stage.filters = [this.rgbfilter, this.pixelatefilter];
 
-            var text = new game.PIXI.Text('Game Over.\n\nYour time: '+score+'\nBest time: '+highscore+'\n\nPress space to play again!', { font: '100px Arial', fill: '#f0a', align: 'center'});
+            var text = new game.PIXI.Text('Game Over.\n\nYour time: '+score+'\nBest time: '+highscore+'\n\nPress SPACE to play again!', { font: '100px Arial', fill: '#f0a', align: 'center'});
             text.position = {x: (game.system.width - text.width)/2, y: (game.system.height - text.height)/2};
             this.stage.addChild(text);
         },
