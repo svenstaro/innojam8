@@ -14,7 +14,7 @@ game.module('game.player')
 
             // Player properties
             this.speed = 450;
-            this.isGrounded = false;
+            this.numberOfContacts = 0;
 
             game.scene.addObject(this);
             this.sprite.addTo(game.scene.stage);
@@ -58,16 +58,20 @@ game.module('game.player')
 
             this.sensorContactListener = new game.Box2D.ContactListener();
             game.scene.Box2Dworld.SetContactListener(this.sensorContactListener);
+            var that = this;
             this.sensorContactListener.BeginContact = function(contact) {
                 var player = getObjectFromFixture("PlayerSensor", contact);
                 if (player != null) {
-                    player.isGrounded = true;
+                    that.numberOfContacts++;
+                    if (game.keyboard.down('SPACE') || game.keyboard.down('W') || game.keyboard.down('UP')) {
+                        that.jump();
+                    }
                 }
             };
             this.sensorContactListener.EndContact = function(contact) {
                 var player = getObjectFromFixture("PlayerSensor", contact);
                 if (player != null) {
-                    player.isGrounded = false;
+                    that.numberOfContacts--;
                 }
             };
         },
@@ -96,19 +100,22 @@ game.module('game.player')
         
         keydown: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
-                if (this.isGrounded) {
-                    // this.body.ApplyImpulse(new game.Box2D.Vec2(0, -1000), this.body.GetLocalCenter());
-                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -6.5));
+                if (this.numberOfContacts > 0) {
+                    this.jump();
                 }
             }
         },
 
         keyup: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
-                if (this.body.GetLinearVelocity().y < -3) {
-                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -3));
+                if (this.body.GetLinearVelocity().y < -6) {
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -6));
                 }
             }
+        },
+
+        jump: function() {
+            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -12));
         }
     });
 

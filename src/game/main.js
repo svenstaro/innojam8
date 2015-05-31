@@ -34,7 +34,7 @@ game.module(
             this.difficulty = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
-            this.gravity = 1000;
+            this.gravity = 3000;
 
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
