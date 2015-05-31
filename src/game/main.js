@@ -59,6 +59,7 @@ game.module(
             this.screenBlend.beginFill(0xFFFFFF, 1);
             this.screenBlend.drawRect(0, 0, game.system.width, game.system.height);
             this.screenBlend.endFill();
+            this.screenBlend.alpha = 0.2;
             this.screenBlend.zIndex = 20;
             game.scene.stage.addChild(this.screenBlend);
 
@@ -175,7 +176,7 @@ game.module(
         difficultyTransition: function() {
             this.difficultyTransitionText.setText("New stage " + this.difficulty);
             this.difficultyTransitionText.alpha = 1;
-            this.screenBlend.alpha = 1;
+            this.screenBlend.alpha = 0.2;
             this.transitionShake = 50;
 
             var tween_text = new game.Tween(this.difficultyTransitionText);
@@ -190,7 +191,7 @@ game.module(
             tween_shake.start();
 
             var tween_screen = new game.Tween(this.screenBlend);
-            tween_screen.to({'alpha': 0}, 3000);
+            tween_screen.to({'alpha': 0}, 1500);
             tween_screen.easing('Quadratic.InOut');
             tween_screen.start();
         },
