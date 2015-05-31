@@ -47,7 +47,7 @@ game.module(
 
             this.player = new game.Player(game.system.width/2, 200, 50, 100);
 
-            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 300, 400);
+            this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 400, 400);
 
             this.scoreText = new game.PIXI.Text(score, {font: '40px Arial', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
