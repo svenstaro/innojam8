@@ -34,16 +34,17 @@ game.module(
 
             this.rgbfilter = new game.PIXI.RGBSplitFilter();
             this.pixelatefilter = new game.PIXI.PixelateFilter();
-            game.scene.stage.filters = [this.rgbfilter, this.pixelatefilter];
+            this.stage.filters = [this.rgbfilter, this.pixelatefilter];
 
             this.gridmovement = new game.Animation([game.getTexture('grid1'), game.getTexture('grid2')]);
             this.gridmovement.animationSpeed = 0.05;
             this.gridmovement.play();
             this.gridmovement.position.set(0, 0);
+            this.gridmovement.zIndex = 99;
             game.scene.stage.addChild(this.gridmovement);
 
             score = 0;
-            this.difficulty = 0;
+            this.difficulty = 1;
             this.timeInScene = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
@@ -89,10 +90,10 @@ game.module(
 
             var delta = game.system.delta;
             this.timeInScene += delta;
-            this.difficulty = Math.floor(this.timeInScene / 10);
-            score += this.timeInScene;
+            this.difficulty = 1 + Math.floor(this.timeInScene / 10);
+            score = Math.floor(this.timeInScene * 100) / 100;
 
-            this.scoreText.setText("Time: " + Math.floor(score * 100)/100);
+            this.scoreText.setText("Time: " + score);
             this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
             this.difficultyText.setText("Difficulty: " + this.difficulty);
 
@@ -123,7 +124,6 @@ game.module(
         },
 
         gameOver: function() {
-            score = Math.floor(score*100)/100
             if (score > highscore) {
                 highscore = this.score;
                 game.storage.set('highscore', score);
