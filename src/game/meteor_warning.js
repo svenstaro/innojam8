@@ -11,7 +11,7 @@ game.module('game.meteor_warning')
             this.velocity = velocity;
             this.size = size;
 
-            this.blinkTime = 3000;
+            this.blinkTime = 1800;
             this.blinkInterval = this.blinkTime / 10;
             this.blinkIntervalElapsed = 0;
             this.getEdgePos();
