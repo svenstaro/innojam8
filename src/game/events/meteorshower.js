@@ -20,9 +20,9 @@ game.module('game.events.meteorshower')
                 var y = -100;
 
                 var targetPosition = game.scene.player.sprite.position;
-                targetPosition.x += Math.random()*80/this.difficulty;
-                targetPosition.y += Math.random()*80/this.difficulty;
-                var speedFactor = 1 + 0.5 * Math.random();
+                targetPosition.x += Math.random()*200/(this.difficulty*10);
+                targetPosition.y += Math.random()*200/(this.difficulty*10);
+                var speedFactor = 2 + 0.5 * Math.random();
                 var velocity = {
                     x: (targetPosition.x - x) * speedFactor,
                     y: (targetPosition.y - y) * speedFactor
