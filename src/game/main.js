@@ -50,6 +50,13 @@ game.module(
             game.Box2D.SCALE = 0.01;
             this.gravity = 6000;
 
+            this.screenBlend = new game.Graphics();
+            this.screenBlend.beginFill(0xFFFFFF, 1);
+            this.screenBlend.drawRect(0, 0, game.system.width, game.system.height);
+            this.screenBlend.endFill();
+            this.screenBlend.zIndex = 20;
+            game.scene.stage.addChild(this.screenBlend);
+
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
                 highscore = 0;
@@ -65,16 +72,24 @@ game.module(
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 400, 400);
 
             this.scoreText = new game.PIXI.Text(score, {font: '50px ibmfont', fill: '#f0a'});
+            this.scoreText.zIndex = 30;
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
 
             this.highscoreText = new game.PIXI.Text(score, {font: '40px ibmfont', fill: '#f0a'});
+            this.highscoreText.zIndex = 30;
             this.highscoreText.position = {x: 10, y: 60};
             this.stage.addChild(this.highscoreText);
 
             this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
+            this.difficultyText.zIndex = 30;
             this.difficultyText.position = {x: game.system.width - 500, y: 10};
             this.stage.addChild(this.difficultyText);
+
+            this.difficultyTransitionText = new game.PIXI.Text("", {font: '100px ibmfont', fill: '#f0a'});
+            this.difficultyTransitionText.position = {x: game.system.width/2 - 400, y: game.system.height/2 - 400};
+            this.difficultyTransitionText.zIndex = 10;
+            this.stage.addChild(this.difficultyTransitionText);
 
             var bg = new game.Sprite('background.png')
             bg.zIndex = 100;
@@ -83,7 +98,11 @@ game.module(
             this.eventmaster = new game.EventMaster();
 
             game.scene.addObject(this.eventmaster);
+
             game.sortZIndex();
+
+            var that = this;
+            setTimeout(function() {that.difficultyTransition() }, 1000);
         },
 
         update: function() {
@@ -91,7 +110,11 @@ game.module(
 
             var delta = game.system.delta;
             this.timeInScene += delta;
-            this.difficulty = 1 + Math.floor(this.timeInScene / 10);
+            var new_difficulty = 1 + Math.floor(this.timeInScene / 10);
+            if (this.difficulty !== new_difficulty) {
+                this.difficulty = new_difficulty;
+                this.difficultyTransition();
+            }
             score = Math.floor(this.timeInScene * 100) / 100;
 
             this.scoreText.setText("Time: " + score);
@@ -122,6 +145,23 @@ game.module(
 
             this.pixelatefilter.size.x = Math.random() * 1 * this.difficulty + 1;
             this.pixelatefilter.size.y = Math.random() * 2 * this.difficulty + 1;
+        },
+
+        difficultyTransition: function() {
+            this.difficultyTransitionText.setText("New stage " + this.difficulty);
+            this.difficultyTransitionText.alpha = 1;
+            this.screenBlend.alpha = 1;
+
+            var tween_text = new game.Tween(this.difficultyTransitionText);
+            tween_text.to({'alpha': 0}, 2000);
+            tween_text.easing('Exponential.InOut');
+            tween_text.delay(1000);
+            tween_text.start();
+
+            var tween_screen = new game.Tween(this.screenBlend);
+            tween_screen.to({'alpha': 0}, 1000);
+            tween_screen.easing('Exponential.InOut');
+            tween_screen.start();
         },
 
         gameOver: function() {
