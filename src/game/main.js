@@ -81,15 +81,15 @@ game.module(
             wall.CreateFixture(fixtureDef);
 
             this.scoreText = new game.PIXI.Text(score, {font: '50px ibmfont', fill: '#f0a'});
-            this.scoreText.position = {x: 10, y: 10};
+            this.scoreText.position = {x: 20, y: 10};
             this.stage.addChild(this.scoreText);
 
             this.highscoreText = new game.PIXI.Text(score, {font: '40px ibmfont', fill: '#f0a'});
-            this.highscoreText.position = {x: 10, y: 60};
+            this.highscoreText.position = {x: 20, y: 60};
             this.stage.addChild(this.highscoreText);
 
-            this.difficultyText = new game.PIXI.Text(this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
-            this.difficultyText.position = {x: game.system.width - 500, y: 10};
+            this.difficultyText = new game.PIXI.Text('Stage: ' + this.difficulty, {font: '50px ibmfont', fill: '#f0a'});
+            this.difficultyText.position = {x: game.system.width - this.difficultyText.width - 60, y: 10};
             this.stage.addChild(this.difficultyText);
 
             var bg = new game.Sprite('background.png')
@@ -112,7 +112,7 @@ game.module(
 
             this.scoreText.setText("Time: " + score);
             this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
-            this.difficultyText.setText("Difficulty: " + this.difficulty);
+            this.difficultyText.setText("Stage: " + this.difficulty);
 
             //The following code is needed to update the time in the box2d world.
             //The values below are fine as default values, feel free to look up more info in the reference.
