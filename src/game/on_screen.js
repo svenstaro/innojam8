@@ -1,7 +1,6 @@
 game.module('game.on_screen')
 .body(function() {
     game.onScreen = function(x, y) {
-        console.log(x);
         if (typeof(x) == 'object') {
             y = x.y;
             x = x.x;
