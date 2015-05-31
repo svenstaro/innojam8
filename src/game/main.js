@@ -30,7 +30,7 @@ game.module(
             game.system.antialias = true;
 
             if (!game.audio.isMusicPlaying()) {
-                game.audio.playMusic('music1', true);
+                // game.audio.playMusic('music1', true);
             }
 
             this.rgbfilter = new game.PIXI.RGBSplitFilter();

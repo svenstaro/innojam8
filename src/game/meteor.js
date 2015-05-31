@@ -35,8 +35,8 @@ game.module('game.meteor')
             this.emitter.endScale = 0;
             this.emitter.positionVar.set(this.sprite.width / 4);
             this.emitter.count = 2;
-            this.emitter.rate = 20;
-            this.emitter.life = 500;
+            this.emitter.rate = 5;
+            this.emitter.life = 250;
             this.emitter.liveVar = 100;
             game.scene.addEmitter(this.emitter);
 

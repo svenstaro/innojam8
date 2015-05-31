@@ -16,12 +16,17 @@ game.module('game.events.meteorshower')
                     return;
                 }
                 
-                var x = Math.random()*game.system.width;
-                var y = -100;
+                var x;
+                var y = -300 + Math.random()*600;
+                if (Math.random > 0.5) {
+                    x = -100;
+                } else {
+                    x = game.system.width + 100;
+                }
 
                 var targetPosition = game.scene.player.sprite.position;
-                targetPosition.x += Math.random()*200/(this.difficulty*10);
-                targetPosition.y += Math.random()*200/(this.difficulty*10);
+                targetPosition.x += Math.random()*200/(this.difficulty);
+                targetPosition.y += Math.random()*200/(this.difficulty);
                 var speedFactor = 2 + 0.5 * Math.random();
                 var velocity = {
                     x: (targetPosition.x - x) * speedFactor,
