@@ -96,15 +96,18 @@ game.module('game.player')
         
         keydown: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
-                if (this.isGrounded && this.groundedExpireTime <= 0) {
+                if (this.isGrounded) {
                     // this.body.ApplyImpulse(new game.Box2D.Vec2(0, -1000), this.body.GetLocalCenter());
-                    this.body.SetLinearVelocity(new game.Box2D.Vec2(0, -6));
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -8));
                 }
             }
         },
 
         keyup: function(key) {
             if (key === "SPACE" || key === "W" || key === "UP") {
+                if (this.body.GetLinearVelocity().y < 0) {
+                    this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, 0));
+                }
             }
         }
     });
