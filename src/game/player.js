@@ -19,24 +19,27 @@ game.module('game.player')
             this.animReels = [
                 { reel: "idleAnim_right", anim: spritesheet.anim(1, 2) },
                 { reel: "idleAnim_left", anim: spritesheet.anim(1, 3) },
-                { reel: "moveAnim_right", anim: spritesheet.anim(2, 8) },
-                { reel: "moveAnim_left", anim: spritesheet.anim(1, 2) },
+                { reel: "moveAnim_right", anim: spritesheet.anim(2, 7) },
+                { reel: "moveAnim_left", anim: spritesheet.anim(2, 0) },
                 { reel: "moveAnim_up", anim: spritesheet.anim(2, 4) },
             ];
 
             for (var i = this.animReels.length - 1; i >= 0; i--) {
-                this.animReels[i].anim.animationSpeed = 0.8;
-                this.animReels[i].anim.play();
-                this.animReels[i].anim.addTo(game.scene.stage);
-                this.animReels[i].anim.visible = false;
+                var curAnim = this.animReels[i].anim;
+                curAnim.animationSpeed = 0.8;
+                curAnim.play();
+                curAnim.addTo(game.scene.stage);
+                curAnim.visible = false;
+                curAnim.scale.set((w / 200), (h / 400));
             };
 
-            this.setAnim("idleAnim_right");
+            this.setAnim("moveAnim_right");
             // ----- Animation reels
 
             // Player properties
             this.speed = 600;
             this.numberOfContacts = 0;
+            this.isGrounded = false;
 
             game.scene.addObject(this);
 
@@ -84,6 +87,7 @@ game.module('game.player')
                 var player = getObjectFromFixture("PlayerSensor", contact);
                 if (player != null) {
                     that.numberOfContacts++;
+                    that.isGrounded = true;
                     if (game.keyboard.down('SPACE') || game.keyboard.down('W') || game.keyboard.down('UP')) {
                         that.jump();
                     }
@@ -93,6 +97,9 @@ game.module('game.player')
                 var player = getObjectFromFixture("PlayerSensor", contact);
                 if (player != null) {
                     that.numberOfContacts--;
+                }
+                if (that.numberOfContacts <= 0) {
+                    that.isGrounded = false;
                 }
             };
         },
@@ -124,7 +131,11 @@ game.module('game.player')
             }
             else {
                 this.body.SetLinearVelocity(new game.Box2D.Vec2(vel.x * 0.8, vel.y));
-                this.setAnim("idleAnim_right");
+                if (this.isGrounded) {
+                    this.setAnim("idleAnim_right");
+                } else {
+                    this.setAnim("moveAnim_up");
+                }
             }
 
             this.body.ApplyForce(new game.Box2D.Vec2(0, game.scene.gravity), this.body.GetWorldCenter());
