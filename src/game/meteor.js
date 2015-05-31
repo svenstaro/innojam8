@@ -19,12 +19,26 @@ game.module('game.meteor')
                 this.sprite.width / 2 * game.Box2D.SCALE,
                 this.sprite.height / 2 * game.Box2D.SCALE
             );
-            fixtureDef.density = size*100;
+            fixtureDef.density = size*1000;
             fixtureDef.friction = 0.1;
             fixtureDef.restitution = 0.2;
             var meteor_fixture = this.body.CreateFixture(fixtureDef);
             meteor_fixture.SetUserData("meteor");
             this.body.SetLinearVelocity(game.b2dvec(velocity.x, velocity.y));
+
+            this.emitter = new game.Emitter();
+            this.emitter.textures.push('meteor.png');
+            this.emitter.position = this.sprite.position;
+            this.emitter.addTo(game.scene.stage);
+            var scale = size/game.getTexture('meteor.png').width;
+            this.emitter.startScale = 1/2 * scale;
+            this.emitter.endScale = 0;
+            this.emitter.positionVar.set(this.sprite.width / 4);
+            this.emitter.count = 2;
+            this.emitter.rate = 20;
+            this.emitter.life = 500;
+            this.emitter.liveVar = 100;
+            game.scene.addEmitter(this.emitter);
         },
         update: function() {
             var p = this.body.GetPosition();
@@ -35,6 +49,8 @@ game.module('game.meteor')
             if (!game.onScreen(this.sprite.position)) {
                 game.scene.Box2Dworld.DestroyBody(this.body);
                 this.sprite.remove();
+                this.emitter.remove();
+                game.scene.removeEmitter(this.emitter);
                 game.scene.removeObject(this);
             }
         }

@@ -48,7 +48,7 @@ game.module(
             this.timeInScene = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
-            this.gravity = 3000;
+            this.gravity = 6000;
 
             highscore = game.storage.get('highscore');
             if (typeof(highscore) == 'undefined') {
@@ -126,7 +126,7 @@ game.module(
 
         gameOver: function() {
             if (score > highscore) {
-                highscore = this.score;
+                highscore = score;
                 game.storage.set('highscore', score);
             }
             game.system.setScene('GameOver', false);
@@ -135,9 +135,6 @@ game.module(
         keydown: function(key) {
             // Pass keydown event to player
             this.player.keydown(key);
-            if (key === 'SPACE') {
-                
-            }
             if (key === 'M') {
                 game.audio.toggleMusic();
             }

@@ -38,7 +38,7 @@ game.module('game.player')
                 this.sprite.width / 2 * game.Box2D.SCALE,
                 this.sprite.height / 2 * game.Box2D.SCALE
             );
-            fixtureDef.density = 300;     // density has influence on collisions
+            fixtureDef.density = 250;     // density has influence on collisions
             fixtureDef.friction = 0;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
             fixtureDef.restitution = 0; // => Bounciness (range: 0-1).
 
@@ -117,7 +117,7 @@ game.module('game.player')
         },
 
         jump: function() {
-            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -13.5));
+            this.body.SetLinearVelocity(new game.Box2D.Vec2(this.body.GetLinearVelocity().x, -14));
         }
     });
 
