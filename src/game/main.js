@@ -90,7 +90,7 @@ game.module(
 
             var delta = game.system.delta;
             this.timeInScene += delta;
-            this.difficulty = Math.floor(this.timeInScene / 10);
+            this.difficulty = 1 + Math.floor(this.timeInScene / 10);
             score = Math.floor(this.timeInScene * 100) / 100;
 
             this.scoreText.setText("Time: " + score);
