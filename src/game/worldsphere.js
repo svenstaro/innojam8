@@ -22,6 +22,10 @@ game.module('game.worldsphere')
             }
         },
 
+        extend: function(duration) {
+
+        },
+
         update: function() {
         }
     });
