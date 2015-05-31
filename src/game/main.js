@@ -137,6 +137,9 @@ game.module(
             if (key === 'SPACE') {
                 
             }
+            if (key === 'M') {
+                game.audio.toggleMusic();
+            }
         },
 
         keyup: function(key) {
