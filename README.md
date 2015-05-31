@@ -14,3 +14,4 @@ Survival action game for InnoGames Games Jam 8
 [MIT License](http://opensource.org/licenses/MIT).
 
 Using music by Hamster Alliance
+Using Men In Blue font by unknown with unknown license
