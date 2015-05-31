@@ -34,7 +34,7 @@ game.module(
 
             this.rgbfilter = new game.PIXI.RGBSplitFilter();
             this.pixelatefilter = new game.PIXI.PixelateFilter();
-            game.scene.stage.filters = [this.rgbfilter, this.pixelatefilter];
+            this.stage.filters = [this.rgbfilter, this.pixelatefilter];
 
             this.gridmovement = new game.Animation([game.getTexture('grid1'), game.getTexture('grid2')]);
             this.gridmovement.animationSpeed = 0.05;

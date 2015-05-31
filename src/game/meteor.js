@@ -31,6 +31,12 @@ game.module('game.meteor')
             this.sprite.position.x = p.x / game.Box2D.SCALE;
             this.sprite.position.y = p.y / game.Box2D.SCALE;
             this.sprite.rotation = this.body.GetAngle().round(2);
+
+            if (!game.onScreen(this.sprite.position)) {
+                game.scene.Box2Dworld.DestroyBody(this.body);
+                this.sprite.remove();
+                game.scene.removeObject(this);
+            }
         }
     });
 });
