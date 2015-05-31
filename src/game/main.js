@@ -64,6 +64,22 @@ game.module(
 
             this.sphere = new game.WorldSphere(game.system.width/2, game.system.height/2 + 400, 400);
 
+            var bodyDef = new game.Box2D.BodyDef();
+            bodyDef.position = game.b2dvec(0, -300);            
+            bodyDef.type = game.Box2D.Body.b2_staticBody;
+
+            var wall = game.scene.Box2Dworld.CreateBody(bodyDef);
+            var fixtureDef = new game.Box2D.FixtureDef;
+            fixtureDef.shape = new game.Box2D.PolygonShape.AsBox(
+                game.system.width * game.Box2D.SCALE,
+                100 * game.Box2D.SCALE
+            );
+            fixtureDef.density = 250;     // density has influence on collisions
+            fixtureDef.friction = 0;  // A higher friction makes the body slow down on contact and during movement. (normal range: 0-1). 
+            fixtureDef.restitution = 0.5; // => Bounciness (range: 0-1).
+
+            wall.CreateFixture(fixtureDef);
+
             this.scoreText = new game.PIXI.Text(score, {font: '50px ibmfont', fill: '#f0a'});
             this.scoreText.position = {x: 10, y: 10};
             this.stage.addChild(this.scoreText);
