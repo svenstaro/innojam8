@@ -14,6 +14,7 @@ game.module('game.sphere_fragment')
                         y: 0
                     }
                 });
+
             game.scene.addObject(this);
             this.sprite.addTo(game.scene.stage);
 

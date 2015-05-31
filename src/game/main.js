@@ -17,12 +17,24 @@ game.module(
     //add animation of the grid
     game.addAsset('Grid_sprite_01.png', 'grid1');
     game.addAsset('Grid_sprite_02.png', 'grid2');
+    game.addAudio('THA-zweidecker.ogg', 'music1');
+    game.Audio.stopOnSceneChange = false;
 
     game.createScene('Main', {
         backgroundColor: 0x111111,
         name: 'Main',
 
         init: function() {
+            game.system.antialias = true;
+
+            if (!game.audio.isMusicPlaying()) {
+                game.audio.playMusic('music1', true);
+            }
+
+            this.rgbfilter = new game.PIXI.RGBSplitFilter();
+            this.pixelatefilter = new game.PIXI.PixelateFilter();
+            game.scene.stage.filters = [this.rgbfilter, this.pixelatefilter];
+
             this.gridmovement = new game.Animation([game.getTexture('grid1'), game.getTexture('grid2')]);
             this.gridmovement.animationSpeed = 0.05;
             this.gridmovement.play();
@@ -31,6 +43,7 @@ game.module(
 
             score = 0;
             this.difficulty = 0;
+            this.timeInScene = 0;
             // Constants
             game.Box2D.SCALE = 0.01;
             this.gravity = 1000;
@@ -73,17 +86,19 @@ game.module(
         update: function() {
             this._super();
 
-            score += game.system.delta;
-            this.difficulty += game.system.delta / 5;
+            var delta = game.system.delta;
+            this.timeInScene += delta;
+            this.difficulty = Math.floor(this.timeInScene / 10);
+            score += this.timeInScene;
 
             this.scoreText.setText("Time: " + Math.floor(score * 100)/100);
             this.highscoreText.setText("Highscore: " + Math.floor(highscore * 100)/100);
-            this.difficultyText.setText("Difficulty: " + Math.floor(this.difficulty));
+            this.difficultyText.setText("Difficulty: " + this.difficulty);
 
             //The following code is needed to update the time in the box2d world.
             //The values below are fine as default values, feel free to look up more info in the reference.
             this.Box2Dworld.Step(
-                game.system.delta, //time elapsed
+                delta, //time elapsed
                 6,  //world Velocity Iterations
                 6   //world Position Iterations             
             );
@@ -96,6 +111,17 @@ game.module(
                 || this.player.sprite.position.x < -100) {
                 this.gameOver();
             }
+
+            // Corrupt the screen with increasing difficulty
+            this.rgbfilter.blue.x = Math.random() * 10 * this.difficulty;
+            this.rgbfilter.blue.y = Math.random() * 1 * this.difficulty;
+            this.rgbfilter.red.x = Math.random() * 1 * this.difficulty;
+            this.rgbfilter.red.y = Math.random() * 1 * this.difficulty;
+            this.rgbfilter.green.x = Math.random() * 1 * this.difficulty;
+            this.rgbfilter.green.y = Math.random() * 5 * this.difficulty;
+
+            this.pixelatefilter.size.x = Math.random() * 1 * this.difficulty + 1;
+            this.pixelatefilter.size.y = Math.random() * 2 * this.difficulty + 1;
         },
 
         gameOver: function() {
@@ -104,7 +130,6 @@ game.module(
                 highscore = this.score;
                 game.storage.set('highscore', score);
             }
-            game.system.pause();
             game.system.setScene('GameOver', false);
         },
 
