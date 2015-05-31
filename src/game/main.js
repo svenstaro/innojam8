@@ -149,6 +149,10 @@ game.module(
             if (key === 'Q') {
                 this.gameOver();
             }
+            this.player.keyup(key);
+            if (key === 'E') {
+                game.system.setScene('MainMenu', false);
+            }
         }
 
     });
